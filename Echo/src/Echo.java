@@ -60,6 +60,7 @@ public class Echo extends JFrame {
         
         setupGUI();
      
+        System.out.println(listen());
     }
     
     
@@ -147,7 +148,13 @@ public class Echo extends JFrame {
         final byte[] speech = SpeechToText.readData( "input.wav" );
         final String text   = SpeechToText.recognizeSpeech( token, speech );
         
-        return text;
+        int i = 80;
+        while( text.charAt(i) != '"') {
+            i++;
+        }
+        String finalText = text.substring( 80, i );
+                
+        return finalText;
     }
 
     public class Button extends JButton {
