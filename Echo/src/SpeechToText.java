@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public class SpeechToText {
   final static String LANG  = "en-GB";
-  final static String INPUT = "gable.wav";
+  final static String INPUT = "input.wav";
 
   final static String KEY1 = "256a4ccc19dc41d7a75857c7dfd24825";
   final static String KEY2 = "ea072146f15446ed89d1c9f2498c0d87";

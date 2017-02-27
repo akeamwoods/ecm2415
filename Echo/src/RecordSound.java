@@ -12,7 +12,7 @@ import javax.sound.sampled.TargetDataLine;
  * Record sound. David Wakeling, 2017.
  */
 class RecordSound {
-  private static final String  FILENAME        = "output.wav";
+  private static final String  FILENAME        = "input.wav";
   private static final int     TIMER           = 5;     /* secs */
   private static final int     SAMPLE_RATE     = 44100; /* MHz  */
   private static final int     SAMPLE_SIZE     = 16;    /* bits */
@@ -52,7 +52,7 @@ class RecordSound {
       byte buffer[]   = new byte[ bufferSize ];
 
       for ( int counter = TIMER; counter > 0; counter-- ) {
-        int n = stm.read( buffer, 0, buffer.length ); 
+        int n = stm.read( buffer, 0, buffer.length );
         if ( n > 0 ) {
           bos.write( buffer, 0, n );
         } else {

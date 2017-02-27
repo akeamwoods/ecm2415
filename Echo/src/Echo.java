@@ -48,10 +48,27 @@ public class Echo extends JFrame {
     private JLabel top = new JLabel( new ImageIcon( topEcho ) );
     private TopLight topLight = new TopLight();
     
+    /*ATTRIBUTES FOR LISTENING*/
+    private final static String KEY1 = "256a4ccc19dc41d7a75857c7dfd24825";
+    
+    
     public Echo() {
-    /**
-     * GUI Constructor
-     */
+        
+        /**
+         * Method to create an Amazon Echo
+         */
+        
+        setupGUI();
+     
+    }
+    
+    
+    public void setupGUI() {
+        
+        /**
+         * Method to set up the GUI
+         */
+        
         setTitle( "Amazon Echo Simulator" );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setContentPane( new JLabel( new ImageIcon ( sideBackground ) ) );
@@ -116,6 +133,22 @@ public class Echo extends JFrame {
         }
     }
     
+    
+    public String listen() {
+        
+        /**
+         * Method listens for speech then returns it in String format
+         */
+        
+        AudioInputStream stream = RecordSound.setupStream();
+        RecordSound.recordSound( "input.wav", RecordSound.readStream( stream ) );   //This needs to be replaced by an automatic process
+        
+        final String token  = SpeechToText.renewAccessToken( KEY1 );
+        final byte[] speech = SpeechToText.readData( "input.wav" );
+        final String text   = SpeechToText.recognizeSpeech( token, speech );
+        
+        return text;
+    }
 
     public class Button extends JButton {
         
