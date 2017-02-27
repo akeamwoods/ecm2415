@@ -148,12 +148,17 @@ public class Echo extends JFrame {
         final byte[] speech = SpeechToText.readData( "input.wav" );
         final String text   = SpeechToText.recognizeSpeech( token, speech );
         
-        int i = 80;
-        while( text.charAt(i) != '"') {
-            i++;
+        int startIndex = text.indexOf("name") + 7;
+        int endIndex = startIndex;
+        while (text.charAt(endIndex) != '\"') {
+            endIndex++;
         }
-        String finalText = text.substring( 80, i );
-                
+        
+        String finalText = text.substring( startIndex, endIndex );
+        if (finalText.contains("profanity")) {
+            finalText = "Don't be so rude!";
+        }
+        
         return finalText;
     }
 
