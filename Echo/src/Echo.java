@@ -77,7 +77,7 @@ public class Echo extends JFrame {
 	setLayout( null );
         pack();
         
-        top.setBounds( 100, 100, 500, 500);
+        top.setBounds( 100, 101, 500, 500);
         side.setBounds( 250, 110, 200, 500);
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
@@ -236,7 +236,7 @@ public class Echo extends JFrame {
         ImageIcon topLightOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightoff.png") ) );
         
         TopLight() {
-            setBounds(91, -50, 800, 800);
+            setBounds(92, -49, 800, 800);
             setIcon( topLightOff );
         }
         
