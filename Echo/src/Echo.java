@@ -5,8 +5,6 @@ import java.awt.Image;
 import javax.swing.*;
 
 import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
 /*
 *Amazon Echo frame and constructor - 20//2017.
@@ -14,8 +12,8 @@ import javax.sound.sampled.Clip;
 
 public class Echo extends JFrame {
     
-    private final static String turnOnSound = "/hellotune.wav";
-    private final static String turnOffSound = "/goodbyetune.aiff";
+    private final static String turnOnSound = "resources/hellotune.wav";
+    private final static String turnOffSound = "resources/goodbyetune.aiff";
     
     private Image sideBackground = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/background.jpg") );
     private Image topBackground = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") );
@@ -122,7 +120,7 @@ public class Echo extends JFrame {
 
     
 
-    public static synchronized void PlaySound( final String url ) {
+    public static synchronized void playSound( final String url ) {
         
         new Thread(new Runnable() {
             public void run() {
@@ -139,21 +137,9 @@ public class Echo extends JFrame {
          */
         final String token = SpeechToText.renewAccessToken(KEY1);
         final byte[] byteArray = TextToSpeech.synthesizeSpeech(token, speech, "en-US", "Male", "riff-16khz-16bit-mono-pcm");
-        TextToSpeech.writeData(byteArray, "output.wav");
+        TextToSpeech.writeData(byteArray, "resources/output.wav");
 
-        PlaySound("resources/output.wav");
-    }
-    
-    public static synchronized void playSound(final String url) {
-       
-        try {
-            Clip clip = AudioSystem.getClip();
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(Echo.class.getResourceAsStream(url));
-            clip.open(inputStream);
-            clip.start(); 
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
+        playSound("resources/output.wav");
     }
     
     
