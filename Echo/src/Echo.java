@@ -60,11 +60,16 @@ public class Echo extends JFrame {
         
         setupGUI();
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
      
         System.out.println(listen());
 >>>>>>> origin/master
+=======
+     
+        System.out.println(listen());
+>>>>>>> parent of 3b1436a... IT CAN SPEAK
     }
     
     
@@ -81,7 +86,11 @@ public class Echo extends JFrame {
 	setLayout( null );
         pack();
         
+<<<<<<< HEAD
         top.setBounds( 100, 101, 500, 500);
+=======
+        top.setBounds( 100, 100, 500, 500);
+>>>>>>> parent of 3b1436a... IT CAN SPEAK
         side.setBounds( 250, 110, 200, 500);
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
@@ -126,6 +135,7 @@ public class Echo extends JFrame {
 
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     public static synchronized void PlaySound( final String url ) {
         
         new Thread(new Runnable() {
@@ -147,6 +157,8 @@ public class Echo extends JFrame {
 
         PlaySound("resources/output.wav");
 =======
+=======
+>>>>>>> parent of 3b1436a... IT CAN SPEAK
     
     public static synchronized void playSound(final String url) {
        
@@ -158,7 +170,10 @@ public class Echo extends JFrame {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+>>>>>>> parent of 3b1436a... IT CAN SPEAK
     }
     
     
@@ -263,7 +278,11 @@ public class Echo extends JFrame {
         ImageIcon topLightOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightoff.png") ) );
         
         TopLight() {
+<<<<<<< HEAD
             setBounds(92, -49, 800, 800);
+=======
+            setBounds(91, -50, 800, 800);
+>>>>>>> parent of 3b1436a... IT CAN SPEAK
             setIcon( topLightOff );
         }
         
