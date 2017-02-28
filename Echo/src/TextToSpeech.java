@@ -12,7 +12,7 @@ import java.io.DataOutputStream;
  * David Wakeling, 2017.
  */
 public class TextToSpeech {
-  final static String TEXT   = "Hello World!";
+  final static String TEXT   = "Frankly, Lotti, I think your wet, soggy, mouldy and extremely raw pussy could do with a good pounding from Robin, your step dad, who has a massive twenty inch cock, that hasn't stopped throbbing for hours! Also I will spaff on your knee space if you don't suck my dick right now.";
   final static String LANG   = "en-US";
   final static String GENDER = "Male";
   final static String OUTPUT = "output.wav";
@@ -68,7 +68,7 @@ public class TextToSpeech {
    */
   static void writeData( byte[] buffer, String name ) {
     try {
-      File             file = new File( "/Users/Eddie/Documents/Computer Science/2nd/Software Engineering/CA1/ecm2415/Echo/resources/" + name );
+      File             file = new File( name );
       FileOutputStream fos  = new FileOutputStream( file );
       DataOutputStream dos  = new DataOutputStream( fos ); 
       dos.write( buffer );
