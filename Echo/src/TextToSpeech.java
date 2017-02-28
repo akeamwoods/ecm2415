@@ -12,11 +12,6 @@ import java.io.DataOutputStream;
  * David Wakeling, 2017.
  */
 public class TextToSpeech {
-  final static String TEXT   = "Frankly, Lotti, I think your wet, soggy, mouldy and extremely raw pussy could do with a good pounding from Robin, your step dad, who has a massive twenty inch cock, that hasn't stopped throbbing for hours! Also I will spaff on your knee space if you don't suck my dick right now.";
-  final static String LANG   = "en-US";
-  final static String GENDER = "Male";
-  final static String OUTPUT = "output.wav";
-  final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
   final static String KEY1   = "256a4ccc19dc41d7a75857c7dfd24825";
   /* final static String KEY2   = "ea072146f15446ed89d1c9f2498c0d87"; */
@@ -77,14 +72,5 @@ public class TextToSpeech {
     } catch ( Exception ex ) {
       System.out.println( ex ); System.exit( 1 ); return;
     }
-  }
-
-  /*
-   * Convert text to speech.
-   */
-  public static void main( String[] argv ) {
-    final String token  = renewAccessToken( KEY1 );
-    final byte[] speech = synthesizeSpeech( token, TEXT, LANG, GENDER, FORMAT );
-    writeData( speech, OUTPUT );
   }
 }
