@@ -61,7 +61,6 @@ public class Echo extends JFrame {
          * Method to create an Amazon Echo
          */
         setupGUI();
-        speak("Akeam is a massive cunt");
 
     }
 
@@ -135,7 +134,6 @@ public class Echo extends JFrame {
         /**
          * Method to speak an input String
          */
- 
         final String token = SpeechToText.renewAccessToken(KEY1);
         final byte[] byteArray = TextToSpeech.synthesizeSpeech(token, speech, "en-US", "Male", "riff-16khz-16bit-mono-pcm");
         TextToSpeech.writeData(byteArray, output);
