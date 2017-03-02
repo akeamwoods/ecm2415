@@ -31,9 +31,6 @@ public class Echo extends JFrame {
     private final int SIDEVIEW = 1;
     private final int TOPVIEW = 2;
     
-    /*ATTRIBUTE USED FOR SWAPPING BACKGROUND WHEN CHANGING VIEW*/
-    private BackgroundReplacer backgroundReplacer = new BackgroundReplacer();
-    
     private int currentView = SIDEVIEW;
     
     private JPanel contentPane = (JPanel) getContentPane();
@@ -48,7 +45,6 @@ public class Echo extends JFrame {
     /*ATTRIBUTES FOR TOP VIEW*/
     private JLabel top = new JLabel( new ImageIcon( topEcho ) );
     private TopLight topLight = new TopLight();
-
     
     /*ATTRIBUTES FOR LISTENING*/
     private final static String KEY1 = "256a4ccc19dc41d7a75857c7dfd24825";
@@ -61,7 +57,7 @@ public class Echo extends JFrame {
          */
         
         setupGUI();
-        speak("Welcome to the Amazon Echo Simulator!");
+        speak("Akeam is a cunt");
     }
     
     
@@ -84,7 +80,8 @@ public class Echo extends JFrame {
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
         layeredPane.add(light, 0, 0);
-        layeredPane.add(changeModeButton);
+        
+        add(changeModeButton);
     }
     
     
@@ -97,12 +94,8 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
-                layeredPane.remove(0);
-                layeredPane.remove(0);
                 
-                layeredPane.add(backgroundReplacer, 0, -1 );
-                layeredPane.add(changeModeButton, 0, 0);
-                layeredPane.add(top, 0, 0);
+                layeredPane.add(top, 0, -1);
                 layeredPane.add(topLight, 0, 0);
                 if (light.getStatus() == 1) {
                     topLight.turnOn();
@@ -115,12 +108,8 @@ public class Echo extends JFrame {
             
                 layeredPane.remove(0);
                 layeredPane.remove(0);
-                layeredPane.remove(0);
-                layeredPane.remove(0);
                 
-                layeredPane.add(backgroundReplacer, 0, -1 );
-                layeredPane.add(changeModeButton, 0, 0);
-                layeredPane.add(side, 0, 0);
+                layeredPane.add(side, 0, -1);
                 layeredPane.add(button, 0, 0);
                 layeredPane.add(light, 0, 0);
                 layeredPane.repaint();
@@ -130,26 +119,6 @@ public class Echo extends JFrame {
     }
 
     
-    public class BackgroundReplacer extends JLabel {
-        /**
-         * Method to replace background image when switching views
-         */
-         ImageIcon replaceSide = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") ) );   
-         ImageIcon replaceTop = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/background.jpg") ) );   
-         
-         BackgroundReplacer(){
-         setBounds(0, -125, 900, 900);
-         }
-         
-         void replaceSideBg() {
-            setIcon( replaceSide );
-         }
-         
-         void replaceTopBg() {
-            setIcon( replaceTop );
-         }
-         
-    }
 
     public static synchronized void playSound( final String url ) {
         
@@ -309,12 +278,10 @@ public class Echo extends JFrame {
                         case SIDEVIEW:
                             switchView();
                             setIcon( sideView );
-                            backgroundReplacer.replaceSideBg();
                             break;
                         case TOPVIEW:
                             switchView();
                             setIcon( topView );
-                            backgroundReplacer.replaceTopBg();
                             break;
                     }
                     
