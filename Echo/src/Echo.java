@@ -202,7 +202,7 @@ public class Echo extends JFrame {
         playSound("resources/output.wav");
     }
     
-    
+
     public String listen() {
         
         /**
@@ -229,6 +229,8 @@ public class Echo extends JFrame {
         
         return finalText;
     }
+   
+    
     
     
     public class BackgroundReplacer extends JLabel {
