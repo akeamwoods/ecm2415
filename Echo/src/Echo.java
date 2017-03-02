@@ -107,13 +107,12 @@ public class Echo extends JFrame {
                 if (light.getStatus() == 1) {
                     topLight.turnOn();
                 }
-           
                 layeredPane.repaint();
                 currentView = TOPVIEW;
                 break;
-                
             case TOPVIEW:
                 topLight.turnOff();
+            
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
@@ -124,7 +123,6 @@ public class Echo extends JFrame {
                 layeredPane.add(side, 0, 0);
                 layeredPane.add(button, 0, 0);
                 layeredPane.add(light, 0, 0);
-                
                 layeredPane.repaint();
                 currentView = SIDEVIEW;
                 break;
@@ -132,6 +130,27 @@ public class Echo extends JFrame {
     }
 
     
+    public class BackgroundReplacer extends JLabel {
+        /**
+         * Method to replace background image when switching views
+         */
+         ImageIcon replaceSide = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") ) );   
+         ImageIcon replaceTop = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/background.jpg") ) );   
+         
+         BackgroundReplacer(){
+         setBounds(0, -125, 900, 900);
+         }
+         
+         void replaceSideBg() {
+            setIcon( replaceSide );
+         }
+         
+         void replaceTopBg() {
+            setIcon( replaceTop );
+         }
+         
+    }
+
     public static synchronized void playSound( final String url ) {
         
         new Thread(new Runnable() {
@@ -181,29 +200,6 @@ public class Echo extends JFrame {
         
         return finalText;
     }
-    
-    
-    public class BackgroundReplacer extends JLabel {
-        /**
-         * Method to replace background image when switching views
-         */
-         ImageIcon replaceSide = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") ) );   
-         ImageIcon replaceTop = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/background.jpg") ) );   
-         
-         BackgroundReplacer(){
-         setBounds(0, -125, 900, 900);
-         }
-         
-         void replaceSideBg() {
-            setIcon( replaceSide );
-         }
-         
-         void replaceTopBg() {
-            setIcon( replaceTop );
-         }
-         
-    }
-
 
     public class Button extends JButton {
         
