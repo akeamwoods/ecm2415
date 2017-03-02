@@ -33,6 +33,20 @@ public class Echo extends JFrame {
     /*ADDED FOR VIEW CHANGE*/
     private final int SIDEVIEW = 1;
     private final int TOPVIEW = 2;
+    private ChangeModeButton changeModeButton = new ChangeModeButton();
+    private ChangeModeLabel changeModeLabel = new ChangeModeLabel();
+    
+    private final int FIRSTBG = 1;
+    private final int SECONDBG = 2;
+    private final int THIRDBG = 3;
+    private final int FOURTHBG = 4;
+    private final int FITHBG = 5;
+    
+    private int currentBackground = FIRSTBG;
+    
+    
+    private ChangeBackgroundButton changeBackgroundButton = new ChangeBackgroundButton();
+    private ChangeBackgroundLabel changeBackgroundLabel = new ChangeBackgroundLabel();
     
     /*ATTRIBUTE USED FOR SWAPPING BACKGROUND WHEN CHANGING VIEW*/
     private BackgroundReplacer backgroundReplacer = new BackgroundReplacer();
@@ -45,7 +59,6 @@ public class Echo extends JFrame {
     /*ATTRIBUTES FOR SIDE VIEW*/
     private Button button = new Button();
     private Light light = new Light();
-    private ChangeModeButton changeModeButton = new ChangeModeButton();
     private JLabel side = new JLabel( new ImageIcon( sideEcho ) );
     
     /*ATTRIBUTES FOR TOP VIEW*/
@@ -89,7 +102,11 @@ public class Echo extends JFrame {
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
         layeredPane.add(light, 0, 0);
-        layeredPane.add(changeModeButton);
+        layeredPane.add(backgroundReplacer, 0, -1 );
+        layeredPane.add(changeModeButton, 0, 0);
+        layeredPane.add(changeModeLabel, 0, 0);
+        layeredPane.add(changeBackgroundButton,0, 0);
+        layeredPane.add(changeBackgroundLabel,0, 0);
     }
     
     
@@ -105,9 +122,13 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
+                layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 layeredPane.add(backgroundReplacer, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
+                layeredPane.add(changeModeLabel, 0, 0);
                 layeredPane.add(top, 0, 0);
                 layeredPane.add(muteButton, 0, 0);
                 layeredPane.add(topButton, 0, 0);
@@ -129,9 +150,13 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
-                
+                layeredPane.remove(0);
+ 
                 layeredPane.add(backgroundReplacer, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
+                layeredPane.add(changeModeLabel, 0, 0);
+                layeredPane.add(changeBackgroundButton, 0, 0);
+                layeredPane.add(changeBackgroundLabel, 0, 0);
                 layeredPane.add(side, 0, 0);
                 layeredPane.add(button, 0, 0);
                 layeredPane.add(light, 0, 0);
@@ -149,6 +174,7 @@ public class Echo extends JFrame {
                 
                 layeredPane.repaint();
                 currentView = SIDEVIEW;
+                currentBackground = FIRSTBG;
                 break;
         }
     }
@@ -210,7 +236,13 @@ public class Echo extends JFrame {
          * Class to replace background image when switching views
          */
          ImageIcon replaceSide = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") ) );   
-         ImageIcon replaceTop = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/background.jpg") ) );   
+         ImageIcon replaceTop = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/background.jpg") ) );
+         
+         ImageIcon one = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background1.jpg") ) );
+         ImageIcon two = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background2.jpg") ) );
+         ImageIcon three = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background3.jpg") ) );
+         ImageIcon four = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background4.jpg") ) );
+         ImageIcon five = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background5.jpg") ) );
          
          BackgroundReplacer(){
          setBounds(0, -125, 900, 900);
@@ -222,6 +254,26 @@ public class Echo extends JFrame {
          
          void replaceTopBg() {
             setIcon( replaceTop );
+         }
+         
+         void setOne(){
+             setIcon(one);
+         }
+         
+         void setTwo(){
+             setIcon(two);
+         }
+         
+         void setThree(){
+             setIcon(three);
+         }
+         
+         void setFour(){
+             setIcon(four);
+         }
+         
+         void setFive(){
+             setIcon(five);
          }
          
     }
@@ -470,7 +522,7 @@ public class Echo extends JFrame {
             setFocusPainted(false); 
             setBorder( null );
             setOpaque(false);
-            setBounds(606, 107, 90, 101);
+            setBounds(606, 98, 90, 101);
             setIcon( topView );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -490,6 +542,69 @@ public class Echo extends JFrame {
                     
                 }
             });
+        }   
+    }
+    
+    public class ChangeModeLabel extends JLabel {
+    
+        ImageIcon label = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/changeviewlabel.png") ) );
+        
+        ChangeModeLabel() {
+            setIcon( label );
+            setBounds(616, 144, 90, 101);
+        }   
+    }
+    
+    public class ChangeBackgroundButton extends JButton {
+    
+        ImageIcon changeBackground = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/changebackground.png") ) );
+        
+        ChangeBackgroundButton() {
+            setBorderPainted(false);
+            setContentAreaFilled(false); 
+            setFocusPainted(false); 
+            setBorder( null );
+            setOpaque(false);
+            setBounds(608, 198, 90, 101);
+            setIcon( changeBackground );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    switch(currentBackground){
+                        case FIRSTBG:
+                            backgroundReplacer.setOne();
+                            currentBackground = SECONDBG;
+                            break;
+                        case SECONDBG:
+                            backgroundReplacer.setTwo();
+                            currentBackground = THIRDBG;
+                            break;
+                        case THIRDBG:
+                            backgroundReplacer.setThree();
+                            currentBackground = FOURTHBG;
+                            break;
+                        case FOURTHBG:
+                            backgroundReplacer.setFour();
+                            currentBackground = FITHBG;
+                            break;
+                        case FITHBG:
+                            backgroundReplacer.setFive();
+                            currentBackground = FIRSTBG;
+                            break;
+                    }
+                    
+                    
+                }
+            });
+        }   
+    }
+    
+    public class ChangeBackgroundLabel extends JLabel {
+    
+        ImageIcon bglabel = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/changebackgroundlabel.png") ) );
+        
+        ChangeBackgroundLabel() {
+            setIcon( bglabel );
+            setBounds(620, 246, 90, 101);
         }   
     }
     
