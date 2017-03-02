@@ -46,7 +46,7 @@ public class Echo extends JFrame {
     private JLabel side = new JLabel( new ImageIcon( sideEcho ) );
     
     /*ATTRIBUTES FOR TOP VIEW*/
-    private TopButton topButton = new TopButton();
+    private ActionButton topButton = new ActionButton();
     private JLabel top = new JLabel( new ImageIcon( topEcho ) );
     private TopLight topLight = new TopLight();
 
@@ -267,13 +267,13 @@ public class Echo extends JFrame {
     }
     
 
-    public class TopButton extends JButton {
+    public class ActionButton extends JButton {
         
         ImageIcon topButtonOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/actionbuttonoff.png") ) );
         ImageIcon topButtonOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/actionbuttonon.png") ) );
         int status = 0;
         
-        TopButton() {
+        ActionButton() {
             setBounds( 388, 266, 153, 163);
             setBorderPainted(false);
             setContentAreaFilled(false); 
