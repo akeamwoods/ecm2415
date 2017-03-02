@@ -12,10 +12,8 @@ import javax.sound.sampled.AudioInputStream;
 
 public class Echo extends JFrame {
     
-    private final static String turnOnSound = "resources/audio/hellotune.wav";
-    private final static String turnOffSound = "resources/audio/goodbyetune.aiff";
-    private final static String swapSound = "resources/audio/woosh.wav";
-    private final static String muteSound = "resources/audio/mute.wav";
+    private final static String turnOnSound = "resources/hellotune.wav";
+    private final static String turnOffSound = "resources/goodbyetune.aiff";
     
     private Image sideBackground = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/background.jpg") );
     private Image topBackground = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") );
@@ -99,7 +97,6 @@ public class Echo extends JFrame {
      */
         switch(currentView){
             case SIDEVIEW:
-                playSound( swapSound);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
@@ -121,7 +118,6 @@ public class Echo extends JFrame {
                 break;
                 
             case TOPVIEW:
-                playSound( swapSound);
                 topLight.turnOff();
                 layeredPane.remove(0);
                 layeredPane.remove(0);
@@ -357,7 +353,6 @@ public class Echo extends JFrame {
                 public void actionPerformed( ActionEvent e ) {
                     switch(currentMode){
                         case OFFMODE:
-                            playSound( muteSound);
                             muteButton.turnOn();
                             topLight.turnMute();
                             button.turnOff();
@@ -366,7 +361,6 @@ public class Echo extends JFrame {
                             currentMode = MUTEMODE;
                             break;
                         case LISTENINGMODE:
-                            playSound( muteSound);
                             muteButton.turnOn();
                             topLight.turnMute();
                             button.turnOff();
@@ -375,7 +369,6 @@ public class Echo extends JFrame {
                             currentMode = MUTEMODE;
                             break;
                         case MUTEMODE:
-                            playSound( muteSound);
                             muteButton.turnOff();
                             topLight.turnOff();
                             currentMode = OFFMODE;
