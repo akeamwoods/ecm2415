@@ -46,7 +46,6 @@ public class Echo extends JFrame {
     private JLabel side = new JLabel( new ImageIcon( sideEcho ) );
     
     /*ATTRIBUTES FOR TOP VIEW*/
-    private TopButton topButton = new TopButton();
     private JLabel top = new JLabel( new ImageIcon( topEcho ) );
     private TopLight topLight = new TopLight();
 
@@ -104,7 +103,6 @@ public class Echo extends JFrame {
                 layeredPane.add(backgroundReplacer, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(top, 0, 0);
-                layeredPane.add(topButton, 0, 0);
                 layeredPane.add(topLight, 0, 0);
                 if (light.getStatus() == 1) {
                     topLight.turnOn();
@@ -120,16 +118,12 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
-                layeredPane.remove(0);
                 
                 layeredPane.add(backgroundReplacer, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(side, 0, 0);
                 layeredPane.add(button, 0, 0);
                 layeredPane.add(light, 0, 0);
-                if (topLight.getStatus() == 1) {
-                    light.turnOn();
-                }
                 
                 layeredPane.repaint();
                 currentView = SIDEVIEW;
@@ -191,7 +185,7 @@ public class Echo extends JFrame {
     
     public class BackgroundReplacer extends JLabel {
         /**
-         * Class to replace background image when switching views
+         * Method to replace background image when switching views
          */
          ImageIcon replaceSide = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") ) );   
          ImageIcon replaceTop = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/background.jpg") ) );   
@@ -210,13 +204,12 @@ public class Echo extends JFrame {
          
     }
 
-//WORKS
+
     public class Button extends JButton {
         
         ImageIcon buttonOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonoff.png") ) );
         ImageIcon buttonOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonon.png") ) );
-        int status = 0;
-        
+    
         Button() {
             setBounds( 325, 424, 50, 50);
             setBorderPainted(false);
@@ -229,73 +222,13 @@ public class Echo extends JFrame {
                 public void actionPerformed( ActionEvent e ) {
                     switch(currentMode){
                         case OFFMODE:
-                            button.turnOn();
-                            topButton.turnOn();
-                            topLight.turnOn();
+                            setIcon( buttonOn );
                             light.turnOn();
                             playSound( turnOnSound );
                             currentMode = LISTENINGMODE;
                             break;
                         case LISTENINGMODE:
-                            button.turnOff();
-                            topButton.turnOff();
-                            light.turnOff();
-                            topLight.turnOff();
-                            playSound( turnOffSound);
-                            currentMode = OFFMODE;
-                            break;
-                        case ANSWERMODE:
-                            break;
-                    }
-                }
-            });
-        }
-    
-        void turnOn() {
-            setIcon( buttonOn );
-            status = 1;
-        }
-        
-        void turnOff() {
-            setIcon( buttonOff );
-            status = 0;
-        }
-        
-        int getStatus() {
-            return status;
-        }
-    }
-    
-
-    public class TopButton extends JButton {
-        
-        ImageIcon topButtonOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/actionbuttonoff.png") ) );
-        ImageIcon topButtonOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/actionbuttonon.png") ) );
-        int status = 0;
-        
-        TopButton() {
-            setBounds( 388, 266, 153, 163);
-            setBorderPainted(false);
-            setContentAreaFilled(false); 
-            setFocusPainted(false); 
-            setBorder( null );
-            setOpaque(false);
-            setIcon( topButtonOff );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    switch(currentMode){
-                        case OFFMODE:
-                            button.turnOn();
-                            topButton.turnOn();
-                            topLight.turnOn();
-                            light.turnOn();
-                            playSound( turnOnSound );
-                            currentMode = LISTENINGMODE;
-                            break;
-                        case LISTENINGMODE:
-                            button.turnOff();
-                            topButton.turnOff();
-                            topLight.turnOff();
+                            setIcon( buttonOff );
                             light.turnOff();
                             playSound( turnOffSound);
                             currentMode = OFFMODE;
@@ -308,23 +241,8 @@ public class Echo extends JFrame {
                 }
             });
         }
-        
-        void turnOn() {
-            setIcon( topButtonOn );
-            status = 1;
-        }
-        
-        void turnOff() {
-            setIcon( topButtonOff );
-            status = 0;
-        }
-        
-        int getStatus() {
-            return status;
-        }
     }
     
-
     
     public class Light extends JLabel {
     
@@ -359,7 +277,6 @@ public class Echo extends JFrame {
     
         ImageIcon topLightOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lighton.png") ) );
         ImageIcon topLightOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightoff.png") ) );
-        int status = 1;
         
         TopLight() {
 
@@ -369,16 +286,10 @@ public class Echo extends JFrame {
         
         void turnOn() {
             setIcon( topLightOn );
-            status = 1;
         }
         
         void turnOff() {
             setIcon( topLightOff );
-            status = 0;
-        }
-        
-        int getStatus() {
-            return status;
         }
     }
     
