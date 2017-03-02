@@ -565,7 +565,7 @@ public class Echo extends JFrame {
             setFocusPainted(false); 
             setBorder( null );
             setOpaque(false);
-            setBounds(608, 198, 90, 101);
+            setBounds(608, 196, 90, 101);
             setIcon( changeBackground );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -604,7 +604,7 @@ public class Echo extends JFrame {
         
         ChangeBackgroundLabel() {
             setIcon( bglabel );
-            setBounds(620, 246, 90, 101);
+            setBounds(620, 240, 90, 101);
         }   
     }
     
