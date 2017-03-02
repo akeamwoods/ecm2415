@@ -24,6 +24,7 @@ public class Echo extends JFrame {
     private final int OFFMODE = 1;
     private final int LISTENINGMODE = 2;
     private final int ANSWERMODE = 3;
+    private final int MUTEMODE = 4;
     
     private int currentMode = OFFMODE;
     
@@ -47,6 +48,7 @@ public class Echo extends JFrame {
     
     /*ATTRIBUTES FOR TOP VIEW*/
     private ActionButton topButton = new ActionButton();
+    private MuteButton muteButton = new MuteButton();
     private JLabel top = new JLabel( new ImageIcon( topEcho ) );
     private TopLight topLight = new TopLight();
 
@@ -104,6 +106,7 @@ public class Echo extends JFrame {
                 layeredPane.add(backgroundReplacer, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(top, 0, 0);
+                layeredPane.add(muteButton, 0, 0);
                 layeredPane.add(topButton, 0, 0);
                 layeredPane.add(topLight, 0, 0);
                 if (light.getStatus() == 1) {
@@ -121,6 +124,7 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 layeredPane.add(backgroundReplacer, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
@@ -129,6 +133,14 @@ public class Echo extends JFrame {
                 layeredPane.add(light, 0, 0);
                 if (topLight.getStatus() == 1) {
                     light.turnOn();
+                }
+                /* 
+                TURNS OFF MUTEMODE WHEN SWITCHING VIEWS
+                */
+                muteButton.turnOff();
+                if(currentMode == MUTEMODE){
+                    playSound( turnOffSound);
+                    currentMode = OFFMODE;
                 }
                 
                 layeredPane.repaint();
@@ -324,7 +336,59 @@ public class Echo extends JFrame {
         }
     }
     
+    public class MuteButton extends JButton {
+        
+        ImageIcon muteOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/muteoff.png") ) );
+        ImageIcon muteOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/muteon.png") ) );
+        
+        MuteButton() {
+            setBounds( 160, 272, 153, 163);
+            setBorderPainted(false);
+            setContentAreaFilled(false); 
+            setFocusPainted(false); 
+            setBorder( null );
+            setOpaque(false);
+            setIcon( muteOff );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    switch(currentMode){
+                        case OFFMODE:
+                            muteButton.turnOn();
+                            topLight.turnMute();
+                            button.turnOff();
+                            topButton.turnOff();
+                            light.turnOff();
+                            currentMode = MUTEMODE;
+                            break;
+                        case LISTENINGMODE:
+                            muteButton.turnOn();
+                            topLight.turnMute();
+                            button.turnOff();
+                            topButton.turnOff();
+                            light.turnOff();
+                            currentMode = MUTEMODE;
+                            break;
+                        case MUTEMODE:
+                            muteButton.turnOff();
+                            topLight.turnOff();
+                            currentMode = OFFMODE;
+                            break;
+                    }
 
+                }
+            });
+        }
+        
+        void turnOn() {
+            setIcon( muteOn );
+        }
+        
+        void turnOff() {
+            setIcon( muteOff );
+        }
+        
+    }
+    
     
     public class Light extends JLabel {
     
@@ -357,6 +421,8 @@ public class Echo extends JFrame {
     
         ImageIcon topLightOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lighton.png") ) );
         ImageIcon topLightOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightoff.png") ) );
+        ImageIcon topLightMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightmute.png") ) );
+        
         int status = 1;
         
         TopLight() {
@@ -372,6 +438,11 @@ public class Echo extends JFrame {
         
         void turnOff() {
             setIcon( topLightOff );
+            status = 0;
+        }
+        
+        void turnMute() {
+            setIcon( topLightMute );
             status = 0;
         }
         
@@ -392,7 +463,7 @@ public class Echo extends JFrame {
             setFocusPainted(false); 
             setBorder( null );
             setOpaque(false);
-            setBounds(500, 107, 300, 100);
+            setBounds(606, 107, 90, 101);
             setIcon( topView );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
