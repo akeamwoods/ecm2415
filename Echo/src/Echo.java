@@ -242,9 +242,7 @@ public class Echo extends JFrame {
          
          ImageIcon one = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background1.jpg") ) );
          ImageIcon two = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background2.jpg") ) );
-         ImageIcon three = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background3.jpg") ) );
-         ImageIcon four = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background4.jpg") ) );
-         ImageIcon five = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background5.jpg") ) );
+         ImageIcon three = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background5.jpg") ) );
          
          BackgroundReplacer(){
          setBounds(0, -125, 900, 900);
@@ -268,14 +266,6 @@ public class Echo extends JFrame {
          
          void setThree(){
              setIcon(three);
-         }
-         
-         void setFour(){
-             setIcon(four);
-         }
-         
-         void setFive(){
-             setIcon(five);
          }
          
     }
@@ -582,14 +572,6 @@ public class Echo extends JFrame {
                             break;
                         case THIRDBG:
                             backgroundReplacer.setThree();
-                            currentBackground = FOURTHBG;
-                            break;
-                        case FOURTHBG:
-                            backgroundReplacer.setFour();
-                            currentBackground = FITHBG;
-                            break;
-                        case FITHBG:
-                            backgroundReplacer.setFive();
                             currentBackground = FIRSTBG;
                             break;
                     }
