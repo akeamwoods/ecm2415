@@ -18,8 +18,11 @@ public class Echo extends JFrame {
     private final static String swapSound = "resources/audio/woosh.wav";
     private final static String muteSound = "resources/audio/mute.wav";
     
-    private Image sideBackground = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/background.jpg") );
-    private Image topBackground = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") );
+    private final ImageIcon topBackground = new ImageIcon( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") ) );
+    private final ImageIcon sideBackground1 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background1.jpg") ) );;
+    private final ImageIcon sideBackground2 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background2.jpg") ) );
+    private final ImageIcon sideBackground3 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background3.jpg") ) );
+ 
     private Image sideEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/echo.png"));
     private Image topEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/echo.png"));
     private Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonon.png") );
@@ -40,17 +43,15 @@ public class Echo extends JFrame {
     private final int FIRSTBG = 1;
     private final int SECONDBG = 2;
     private final int THIRDBG = 3;
-    private final int FOURTHBG = 4;
-    private final int FITHBG = 5;
     
-    private int currentBackground = FIRSTBG;
+    private int currentBackground = 1;
     
     
     private ChangeBackgroundButton changeBackgroundButton = new ChangeBackgroundButton();
     private ChangeBackgroundLabel changeBackgroundLabel = new ChangeBackgroundLabel();
     
     /*ATTRIBUTE USED FOR SWAPPING BACKGROUND WHEN CHANGING VIEW*/
-    private BackgroundReplacer backgroundReplacer = new BackgroundReplacer();
+    private Background backgroundReplacer = new Background();
     
     private int currentView = SIDEVIEW;
     
@@ -78,7 +79,7 @@ public class Echo extends JFrame {
         /**
          * Method to create an Amazon Echo
          */
-        
+       
         setupGUI();
     }
     
@@ -91,7 +92,7 @@ public class Echo extends JFrame {
         
         setTitle( "Amazon Echo Simulator" );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        setContentPane( new JLabel( new ImageIcon ( sideBackground ) ) );
+        setContentPane( new JLabel( sideBackground1 ) );
 	setIconImage( (new ImageIcon ( icon ).getImage() ) );
 	setLayout( null );
         pack();
@@ -126,6 +127,7 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 
+                backgroundReplacer.changeView();
                 layeredPane.add(backgroundReplacer, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -142,7 +144,7 @@ public class Echo extends JFrame {
                 break;
                 
             case TOPVIEW:
-                playSound( swapSound);
+                playSound( swapSound );
                 topLight.turnOff();
                 layeredPane.remove(0);
                 layeredPane.remove(0);
@@ -151,7 +153,8 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
- 
+                
+                backgroundReplacer.changeView();
                 layeredPane.add(backgroundReplacer, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -174,7 +177,6 @@ public class Echo extends JFrame {
                 
                 layeredPane.repaint();
                 currentView = SIDEVIEW;
-                currentBackground = FIRSTBG;
                 break;
         }
     }
@@ -284,41 +286,47 @@ public class Echo extends JFrame {
     }
     
     
-    public class BackgroundReplacer extends JLabel {
+    public class Background extends JLabel {
         /**
          * Class to replace background image when switching views
          */
-         ImageIcon replaceSide = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") ) );   
-         ImageIcon replaceTop = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/background.jpg") ) );
          
-         ImageIcon one = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background1.jpg") ) );
-         ImageIcon two = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background2.jpg") ) );
-         ImageIcon three = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background5.jpg") ) );
+        Background(){
+            setBounds(0, -125, 900, 900);
+        }
+        
+        void changeView() {
+            switch(currentView){
+                case SIDEVIEW:
+                    setIcon(topBackground);
+                    currentView = TOPVIEW;
+                case TOPVIEW:
+                    switch(currentBackground){
+                        case FIRSTBG:
+                            setOne();
+                        case SECONDBG:
+                            setOne();
+                        case THIRDBG:
+                            setOne();
+                    }
+                    currentView = SIDEVIEW;
+            }
+        }
          
-         BackgroundReplacer(){
-         setBounds(0, -125, 900, 900);
-         }
+        void setOne(){
+            setIcon(sideBackground1);
+            currentBackground = 1;
+        }
          
-         void replaceSideBg() {
-            setIcon( replaceSide );
-         }
+        void setTwo(){
+            setIcon(sideBackground2);
+            currentBackground = 2;
+        }
          
-         void replaceTopBg() {
-            setIcon( replaceTop );
-         }
-         
-         void setOne(){
-             setIcon(one);
-         }
-         
-         void setTwo(){
-             setIcon(two);
-         }
-         
-         void setThree(){
-             setIcon(three);
-         }
-         
+        void setThree(){
+            setIcon(sideBackground3);
+            currentBackground = 3;
+        }  
     }
 
 //WORKS
@@ -562,12 +570,10 @@ public class Echo extends JFrame {
                         case SIDEVIEW:
                             switchView();
                             setIcon( sideView );
-                            backgroundReplacer.replaceSideBg();
                             break;
                         case TOPVIEW:
                             switchView();
                             setIcon( topView );
-                            backgroundReplacer.replaceTopBg();
                             break;
                     }
                     
@@ -605,15 +611,15 @@ public class Echo extends JFrame {
                 public void actionPerformed( ActionEvent e ) {
                     switch(currentBackground){
                         case FIRSTBG:
-                            backgroundReplacer.setOne();
+                            backgroundReplacer.setTwo();
                             currentBackground = SECONDBG;
                             break;
                         case SECONDBG:
-                            backgroundReplacer.setTwo();
+                            backgroundReplacer.setThree();
                             currentBackground = THIRDBG;
                             break;
                         case THIRDBG:
-                            backgroundReplacer.setThree();
+                            backgroundReplacer.setOne();
                             currentBackground = FIRSTBG;
                             break;
                     }
