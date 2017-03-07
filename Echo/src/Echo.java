@@ -76,6 +76,8 @@ public class Echo extends JFrame {
     private TopLight topLight = new TopLight();
 
 
+    private JLabel label1 = new JLabel();
+    
     public Echo() {
         
         /**
@@ -99,9 +101,12 @@ public class Echo extends JFrame {
 	setLayout( null );
         pack();
         
-
         top.setBounds( 100, 101, 500, 500);
         side.setBounds( 250, 110, 200, 500);
+        
+        label1.setBounds(75, 382, 200, 500);
+        
+        layeredPane.add(label1, 0, 0);
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
         layeredPane.add(light, 0, 0);
@@ -128,9 +133,10 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
-                
+                layeredPane.remove(0);
                 
                 background.setTop();
+                layeredPane.add(label1, 0, 0);
                 layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -156,6 +162,7 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 System.out.println(currentBackground);
                 switch(currentBackground){
@@ -169,6 +176,7 @@ public class Echo extends JFrame {
                         background.setThree();
                         break;
                 }
+                layeredPane.add(label1, 0, 0);
                 layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -256,6 +264,7 @@ public class Echo extends JFrame {
     
     public void answer(String question){
     
+        label1.setText(question);
         String response = Wolfram.solve(question);
         
         switchModeTo(ANSWERMODE);
