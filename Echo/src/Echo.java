@@ -155,7 +155,6 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 
-                System.out.println(currentBackground);
                 switch(currentBackground){
                     case 1:
                         background.setOne();
