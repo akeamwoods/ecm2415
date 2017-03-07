@@ -6,27 +6,34 @@ import javax.swing.*;
 import answer.*;
 
 import javax.sound.sampled.AudioInputStream;
-
 /*
 *Amazon Echo frame and constructor - 20//2017.
 */
-
 public class Echo extends JFrame {
-    
+    // Sound Variables
     private final static String turnOnSound = "resources/audio/hellotune.wav";
     private final static String turnOffSound = "resources/audio/goodbyetune.aiff";
     private final static String swapSound = "resources/audio/woosh.wav";
     private final static String muteSound = "resources/audio/mute.wav";
     
+    /*ATTRIBUTES FOR LISTENING*/
+    private final static String KEY1 = "256a4ccc19dc41d7a75857c7dfd24825";
+    
+    // JPanel Attributes
+    private JPanel contentPane = (JPanel) getContentPane();
+    private JLayeredPane layeredPane = getLayeredPane();
+    
+    // Background Images
     private final ImageIcon topBackground = new ImageIcon( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") ) );
     private final ImageIcon sideBackground1 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background1.jpg") ) );;
     private final ImageIcon sideBackground2 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background2.jpg") ) );
     private final ImageIcon sideBackground3 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background3.jpg") ) );
  
+    // Echo Images
     private Image sideEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/echo.png"));
     private Image topEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/echo.png"));
-    private Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonon.png") );
     
+    // Mode Variables
     private final int OFFMODE = 1;
     private final int LISTENINGMODE = 2;
     private final int ANSWERMODE = 3;
@@ -40,25 +47,24 @@ public class Echo extends JFrame {
     private ChangeModeButton changeModeButton = new ChangeModeButton();
     private ChangeModeLabel changeModeLabel = new ChangeModeLabel();
     
+    private int currentView = SIDEVIEW;
+    
+    // Attributes for Background
     private final int FIRSTBG = 1;
     private final int SECONDBG = 2;
     private final int THIRDBG = 3;
-    
+
     private int currentBackground = 1;
     
-    
+    // Change Background Icons
     private ChangeBackgroundButton changeBackgroundButton = new ChangeBackgroundButton();
     private ChangeBackgroundLabel changeBackgroundLabel = new ChangeBackgroundLabel();
     
     /*ATTRIBUTE USED FOR SWAPPING BACKGROUND WHEN CHANGING VIEW*/
     private Background background = new Background();
     
-    private int currentView = SIDEVIEW;
-    
-    private JPanel contentPane = (JPanel) getContentPane();
-    private JLayeredPane layeredPane = getLayeredPane();
-    
     /*ATTRIBUTES FOR SIDE VIEW*/
+    private Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonon.png") );
     private Button button = new Button();
     private Light light = new Light();
     private JLabel side = new JLabel( new ImageIcon( sideEcho ) );
@@ -69,11 +75,7 @@ public class Echo extends JFrame {
     private JLabel top = new JLabel( new ImageIcon( topEcho ) );
     private TopLight topLight = new TopLight();
 
-    
-    /*ATTRIBUTES FOR LISTENING*/
-    private final static String KEY1 = "256a4ccc19dc41d7a75857c7dfd24825";
-    
-    
+
     public Echo() {
         
         /**
