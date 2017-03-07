@@ -80,7 +80,6 @@ public class Echo extends JFrame {
          */
         
         setupGUI();
-        speak("Welcome to the Amazon Echo Simulator!");
     }
     
     
@@ -191,6 +190,7 @@ public class Echo extends JFrame {
         }).start();
     }
 
+    
     public static synchronized void speak(String speech) {
 
         /**
@@ -226,7 +226,8 @@ public class Echo extends JFrame {
         
         String finalText = text.substring( startIndex, endIndex );
         if (finalText.contains("profanity")) {
-            finalText = "Don't be so rude!";
+            speak("Don't be so rude!");
+            return "why am I so rude";
         }
         
         System.out.println(finalText);
@@ -235,6 +236,7 @@ public class Echo extends JFrame {
         
         return finalText;
     }
+    
     
     public void answer(String question){
     
@@ -280,8 +282,6 @@ public class Echo extends JFrame {
         
         
     }
-   
-    
     
     
     public class BackgroundReplacer extends JLabel {
@@ -422,6 +422,7 @@ public class Echo extends JFrame {
             return status;
         }
     }
+    
     
     public class MuteButton extends JButton {
         
@@ -576,6 +577,7 @@ public class Echo extends JFrame {
         }   
     }
     
+    
     public class ChangeModeLabel extends JLabel {
     
         ImageIcon label = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/changeviewlabel.png") ) );
@@ -585,6 +587,7 @@ public class Echo extends JFrame {
             setBounds(616, 144, 90, 101);
         }   
     }
+    
     
     public class ChangeBackgroundButton extends JButton {
     
@@ -621,6 +624,7 @@ public class Echo extends JFrame {
         }   
     }
     
+    
     public class ChangeBackgroundLabel extends JLabel {
     
         ImageIcon bglabel = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/changebackgroundlabel.png") ) );
@@ -630,6 +634,7 @@ public class Echo extends JFrame {
             setBounds(620, 240, 90, 101);
         }   
     }
+    
     
     public static void main( String[] argv ){
 	JFrame frame = new Echo();
