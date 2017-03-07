@@ -203,31 +203,31 @@ public class Echo extends JFrame {
     }
     
 
-    public String listen() {
+    public void listen() {
         
         /**
          * Method listens for speech then returns it in String format
          */
+        System.out.println("Listening...!");
+        RecordSound.record();   //This needs to be replaced by an automatic process
+        System.out.println("Done listening...!");
         
-        AudioInputStream stream = RecordSound.setupStream();
-        RecordSound.recordSound( "input.wav", RecordSound.readStream( stream ) );   //This needs to be replaced by an automatic process
-        
-        final String token  = SpeechToText.renewAccessToken( KEY1 );
-        final byte[] speech = SpeechToText.readData( "input.wav" );
-        final String text   = SpeechToText.recognizeSpeech( token, speech );
-        
-        int startIndex = text.indexOf("name") + 7;
-        int endIndex = startIndex;
-        while (text.charAt(endIndex) != '\"') {
-            endIndex++;
-        }
-        
-        String finalText = text.substring( startIndex, endIndex );
-        if (finalText.contains("profanity")) {
-            finalText = "Don't be so rude!";
-        }
-        
-        return finalText;
+//        final String token  = SpeechToText.renewAccessToken( KEY1 );
+//        final byte[] speech = SpeechToText.readData( "input.wav" );
+//        final String text   = SpeechToText.recognizeSpeech( token, speech );
+//        
+//        int startIndex = text.indexOf("name") + 7;
+//        int endIndex = startIndex;
+//        while (text.charAt(endIndex) != '\"') {
+//            endIndex++;
+//        }
+//        
+//        String finalText = text.substring( startIndex, endIndex );
+//        if (finalText.contains("profanity")) {
+//            finalText = "Don't be so rude!";
+//        }
+//        
+//        return finalText;
     }
    
     
@@ -295,6 +295,7 @@ public class Echo extends JFrame {
                             light.turnOn();
                             playSound( turnOnSound );
                             currentMode = LISTENINGMODE;
+                            listen();
                             break;
                         case LISTENINGMODE:
                             button.turnOff();
@@ -351,6 +352,7 @@ public class Echo extends JFrame {
                             light.turnOn();
                             playSound( turnOnSound );
                             currentMode = LISTENINGMODE;
+                            listen();
                             break;
                         case LISTENINGMODE:
                             button.turnOff();
