@@ -3,6 +3,7 @@ import java.awt.event.ActionListener;
 import java.awt.Toolkit;
 import java.awt.Image;
 import javax.swing.*;
+import answer.*;
 
 import javax.sound.sampled.AudioInputStream;
 
@@ -203,7 +204,7 @@ public class Echo extends JFrame {
     }
     
 
-    public void listen() {
+    public String listen() {
         
         /**
          * Method listens for speech then returns it in String format
@@ -211,23 +212,73 @@ public class Echo extends JFrame {
         System.out.println("Listening...!");
         RecordSound.record();   //This needs to be replaced by an automatic process
         System.out.println("Done listening...!");
+        SpeechToText.convert();
         
-//        final String token  = SpeechToText.renewAccessToken( KEY1 );
-//        final byte[] speech = SpeechToText.readData( "input.wav" );
-//        final String text   = SpeechToText.recognizeSpeech( token, speech );
-//        
-//        int startIndex = text.indexOf("name") + 7;
-//        int endIndex = startIndex;
-//        while (text.charAt(endIndex) != '\"') {
-//            endIndex++;
-//        }
-//        
-//        String finalText = text.substring( startIndex, endIndex );
-//        if (finalText.contains("profanity")) {
-//            finalText = "Don't be so rude!";
-//        }
-//        
-//        return finalText;
+        final String token  = SpeechToText.renewAccessToken( KEY1 );
+        final byte[] speech = SpeechToText.readData( "output.wav" );
+        final String text   = SpeechToText.recognizeSpeech( token, speech );
+        
+        int startIndex = text.indexOf("name") + 7;
+        int endIndex = startIndex;
+        while (text.charAt(endIndex) != '\"') {
+            endIndex++;
+        }
+        
+        String finalText = text.substring( startIndex, endIndex );
+        if (finalText.contains("profanity")) {
+            finalText = "Don't be so rude!";
+        }
+        
+        System.out.println(finalText);
+        
+        currentMode = ANSWERMODE;
+        
+        return finalText;
+    }
+    
+    public void answer(String question){
+    
+        String response = Wolfram.solve(question);
+        
+        switchModeTo(ANSWERMODE);
+        
+        speak(response);
+        
+        switchModeTo(LISTENINGMODE);
+        
+        
+    }    
+    
+    
+    public void switchModeTo(int nextMode){
+        switch(nextMode){
+            case OFFMODE:
+                button.turnOff();
+                topButton.turnOff();
+                light.turnOff();
+                topLight.turnOff();
+                //microphone disable
+                playSound( turnOffSound);
+                currentMode = OFFMODE;
+                break;
+            case LISTENINGMODE:
+                button.turnOn();
+                topButton.turnOn();
+                topLight.turnOn();
+                light.turnOn();
+                //microphone enable
+                currentMode = LISTENINGMODE;
+                playSound( turnOnSound );
+                break;
+            case ANSWERMODE:
+                //all lights turn blue
+                //microphone is disabled
+                //on/off button is disabled
+                break;
+                
+        }
+        
+        
     }
    
     
@@ -289,21 +340,14 @@ public class Echo extends JFrame {
                 public void actionPerformed( ActionEvent e ) {
                     switch(currentMode){
                         case OFFMODE:
-                            button.turnOn();
-                            topButton.turnOn();
-                            topLight.turnOn();
-                            light.turnOn();
-                            playSound( turnOnSound );
-                            currentMode = LISTENINGMODE;
-                            listen();
+                            switchModeTo(LISTENINGMODE);
+                            
+                            String question = listen();
+                            answer(question);
+                            
                             break;
                         case LISTENINGMODE:
-                            button.turnOff();
-                            topButton.turnOff();
-                            light.turnOff();
-                            topLight.turnOff();
-                            playSound( turnOffSound);
-                            currentMode = OFFMODE;
+                            switchModeTo(OFFMODE);
                             break;
                         case ANSWERMODE:
                             break;
@@ -346,21 +390,14 @@ public class Echo extends JFrame {
                 public void actionPerformed( ActionEvent e ) {
                     switch(currentMode){
                         case OFFMODE:
-                            button.turnOn();
-                            topButton.turnOn();
-                            topLight.turnOn();
-                            light.turnOn();
-                            playSound( turnOnSound );
-                            currentMode = LISTENINGMODE;
-                            listen();
+                            switchModeTo(LISTENINGMODE);
+                            
+                            String question = listen();
+                            answer(question);
+                            
                             break;
                         case LISTENINGMODE:
-                            button.turnOff();
-                            topButton.turnOff();
-                            topLight.turnOff();
-                            light.turnOff();
-                            playSound( turnOffSound);
-                            currentMode = OFFMODE;
+                            switchModeTo(OFFMODE);
                             break;
                         case ANSWERMODE:
                             break;

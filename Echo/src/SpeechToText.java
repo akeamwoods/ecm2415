@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public class SpeechToText {
   final static String LANG  = "en-GB";
-  final static String INPUT = "input.wav";
+  final static String INPUT = "output.wav";
 
   final static String KEY1 = "256a4ccc19dc41d7a75857c7dfd24825";
   final static String KEY2 = "ea072146f15446ed89d1c9f2498c0d87";
@@ -77,10 +77,10 @@ public class SpeechToText {
   /*
    * Convert speech to text.
    */
-  public static void main( String[] argv ) {
+  public static void convert() {
     final String token  = renewAccessToken( KEY1 );
     final byte[] speech = readData( INPUT );
     final String text   = recognizeSpeech( token, speech );
-    System.out.println( text );
+//    System.out.println( text );
   }
 }
