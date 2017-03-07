@@ -51,7 +51,7 @@ public class Echo extends JFrame {
     private ChangeBackgroundLabel changeBackgroundLabel = new ChangeBackgroundLabel();
     
     /*ATTRIBUTE USED FOR SWAPPING BACKGROUND WHEN CHANGING VIEW*/
-    private Background backgroundReplacer = new Background();
+    private Background background = new Background();
     
     private int currentView = SIDEVIEW;
     
@@ -92,7 +92,7 @@ public class Echo extends JFrame {
         
         setTitle( "Amazon Echo Simulator" );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        setContentPane( new JLabel( sideBackground1 ) );
+        setContentPane( new JLabel(sideBackground1) );
 	setIconImage( (new ImageIcon ( icon ).getImage() ) );
 	setLayout( null );
         pack();
@@ -103,7 +103,7 @@ public class Echo extends JFrame {
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
         layeredPane.add(light, 0, 0);
-        layeredPane.add(backgroundReplacer, 0, -1 );
+        layeredPane.add(background, 0, -1 );
         layeredPane.add(changeModeButton, 0, 0);
         layeredPane.add(changeModeLabel, 0, 0);
         layeredPane.add(changeBackgroundButton,0, 0);
@@ -127,8 +127,9 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 
-                backgroundReplacer.changeView();
-                layeredPane.add(backgroundReplacer, 0, -1 );
+                
+                background.setTop();
+                layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
                 layeredPane.add(top, 0, 0);
@@ -154,8 +155,19 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 
-                backgroundReplacer.changeView();
-                layeredPane.add(backgroundReplacer, 0, -1 );
+                System.out.println(currentBackground);
+                switch(currentBackground){
+                    case 1:
+                        background.setOne();
+                        break;
+                    case 2:
+                        background.setTwo();
+                        break;
+                    case 3:
+                        background.setThree();
+                        break;
+                }
+                layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
                 layeredPane.add(changeBackgroundButton, 0, 0);
@@ -293,24 +305,7 @@ public class Echo extends JFrame {
          
         Background(){
             setBounds(0, -125, 900, 900);
-        }
-        
-        void changeView() {
-            switch(currentView){
-                case SIDEVIEW:
-                    setIcon(topBackground);
-                    currentView = TOPVIEW;
-                case TOPVIEW:
-                    switch(currentBackground){
-                        case FIRSTBG:
-                            setOne();
-                        case SECONDBG:
-                            setOne();
-                        case THIRDBG:
-                            setOne();
-                    }
-                    currentView = SIDEVIEW;
-            }
+            setOne();
         }
          
         void setOne(){
@@ -327,6 +322,10 @@ public class Echo extends JFrame {
             setIcon(sideBackground3);
             currentBackground = 3;
         }  
+        
+        void setTop(){
+            setIcon(topBackground);
+        }
     }
 
 //WORKS
@@ -611,15 +610,15 @@ public class Echo extends JFrame {
                 public void actionPerformed( ActionEvent e ) {
                     switch(currentBackground){
                         case FIRSTBG:
-                            backgroundReplacer.setTwo();
+                            background.setTwo();
                             currentBackground = SECONDBG;
                             break;
                         case SECONDBG:
-                            backgroundReplacer.setThree();
+                            background.setThree();
                             currentBackground = THIRDBG;
                             break;
                         case THIRDBG:
-                            backgroundReplacer.setOne();
+                            background.setOne();
                             currentBackground = FIRSTBG;
                             break;
                     }
