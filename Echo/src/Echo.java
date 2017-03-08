@@ -157,17 +157,17 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 
                 background.setTop();
-                layeredPane.add(label1a, 0, 0);
-                layeredPane.add(label2a, 0, 0);
-                layeredPane.add(label1b, 0, 0);
-                layeredPane.add(label2b, 0, 0);
-                layeredPane.add(background, 0, -1 );
-                layeredPane.add(changeModeButton, 0, 0);
-                layeredPane.add(changeModeLabel, 0, 0);
-                layeredPane.add(top, 0, 0);
-                layeredPane.add(muteButton, 0, 0);
-                layeredPane.add(topButton, 0, 0);
-                layeredPane.add(topLight, 0, 0);
+                layeredPane.add(label1a, 10, 0);
+                layeredPane.add(label2a, 9, 0);
+                layeredPane.add(label1b, 8, 0);
+                layeredPane.add(label2b, 7, 0);
+                layeredPane.add(background, 0, 0 );
+                layeredPane.add(changeModeButton, 6, 0);
+                layeredPane.add(changeModeLabel, 5, 0);
+                layeredPane.add(top, 1, 0);
+                layeredPane.add(muteButton, 4, 0);
+                layeredPane.add(topButton, 3, 0);
+                layeredPane.add(topLight, 2, 0);
                 if (light.getStatus() == 1) {
                     topLight.turnOn();
                 }
@@ -567,15 +567,15 @@ public class Echo extends JFrame {
     
     public class TopLight extends JLabel {
     
-        ImageIcon topLightOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lighton.png") ) );
-        ImageIcon topLightOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightoff.png") ) );
-        ImageIcon topLightMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightmute.png") ) );
+        ImageIcon topLightOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lighton.gif") ) );
+        ImageIcon topLightOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightoff2.png") ) );
+        ImageIcon topLightMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightmute.gif") ) );
         
         int status = 1;
         
         TopLight() {
 
-            setBounds(92, -49, 800, 800);
+            setBounds(0, -62, 800, 800);
             setIcon( topLightOff );
         }
         
@@ -690,7 +690,7 @@ public class Echo extends JFrame {
         }   
     }
     
-    
+   
     public static void main( String[] argv ){
 	JFrame frame = new Echo();
 	frame.setResizable( false );
