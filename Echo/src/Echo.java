@@ -6,6 +6,8 @@ import javax.swing.*;
 import answer.*;
 import java.awt.Font;
 import java.awt.Color;
+import java.util.TimerTask;
+import java.util.Timer;
 
 import javax.sound.sampled.AudioInputStream;
 /*
@@ -20,6 +22,9 @@ public class Echo extends JFrame {
     
     /*ATTRIBUTES FOR LISTENING*/
     private final static String KEY1 = "256a4ccc19dc41d7a75857c7dfd24825";
+    String token  = SpeechToText.renewAccessToken( KEY1 );
+    static Timer timer = new Timer();
+    static int seconds = 0;
     
     // JPanel Attributes
     private JPanel contentPane = (JPanel) getContentPane();
@@ -89,6 +94,7 @@ public class Echo extends JFrame {
          */
        
         setupGUI();
+        autoRenewToken(KEY1);
     }
     
     
@@ -244,12 +250,33 @@ public class Echo extends JFrame {
     }
 
     
-    public static synchronized void speak(String speech) {
+    public void autoRenewToken(String key) {
+        
+        TimerTask task;
+        
+        task = new TimerTask() {
+            
+            public void run() {
+                if (seconds > 540) {
+                    token = SpeechToText.renewAccessToken( KEY1 );
+                    seconds = 0;
+                    System.out.println("Renewed key!");
+                }
+                else {
+                    seconds++;
+                }
+            }
+        };
+        timer.schedule(task, 0, 1000);
+    }
+    
+    
+    public synchronized void speak(String speech) {
 
         /**
          * Method to speak an input String
          */
-        final String token = SpeechToText.renewAccessToken(KEY1);
+        
         final byte[] byteArray = TextToSpeech.synthesizeSpeech(token, speech, "en-US", "Male", "riff-16khz-16bit-mono-pcm");
         TextToSpeech.writeData(byteArray, "resources/output.wav");
 
@@ -265,9 +292,7 @@ public class Echo extends JFrame {
         label1b.setText("Listening...");
         RecordSound.record();   //This needs to be replaced by an automatic process
         label1b.setText("Please wait.");
-        SpeechToText.convert();
         
-        final String token  = SpeechToText.renewAccessToken( KEY1 );
         final byte[] speech = SpeechToText.readData( "output.wav" );
         final String text   = SpeechToText.recognizeSpeech( token, speech );
         

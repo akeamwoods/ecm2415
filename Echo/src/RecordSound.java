@@ -13,7 +13,7 @@ import javax.sound.sampled.TargetDataLine;
  */
 class RecordSound {
   private static final String  FILENAME        = "output.wav";
-  private static final int     TIMER           = 5;     /* secs */
+  private static final int     TIMER           = 20;     /* secs */
   private static final int     SAMPLE_RATE     = 16000; /* MHz  */
   private static final int     SAMPLE_SIZE     = 16;    /* bits */
   private static final int     SAMPLE_CHANNELS = 1;     /* mono */
@@ -52,9 +52,32 @@ class RecordSound {
       byte buffer[]   = new byte[ bufferSize ];
 
       for ( int counter = TIMER; counter > 0; counter-- ) {
-        int n = stm.read( buffer, 0, buffer.length ); 
+        int sum = 0;
+        int n = stm.read( buffer, 0, buffer.length );
+        
         if ( n > 0 ) {
-          bos.write( buffer, 0, n );
+          for ( int i = 0; i < buffer.length; i++) {
+            sum += buffer[i];
+          }
+        
+        double average = (double)sum/buffer.length;
+        
+        double sumMeanSquare = 0;;
+        for (int i = 0; i < buffer.length; i++) {
+            double f = buffer[i] - average;
+            sumMeanSquare += f * f;
+        }
+        
+        double averageMeanSquare = sumMeanSquare/buffer.length;
+        double rootMeanSquare = Math.sqrt(averageMeanSquare);
+        
+        System.out.println(rootMeanSquare);
+        
+        bos.write( buffer, 0, n );
+        
+        if ( counter > 3 && rootMeanSquare < 14 ){
+            break;
+        }
         } else {
 	  break;
         }
