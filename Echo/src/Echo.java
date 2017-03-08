@@ -6,27 +6,34 @@ import javax.swing.*;
 import answer.*;
 
 import javax.sound.sampled.AudioInputStream;
-
 /*
 *Amazon Echo frame and constructor - 20//2017.
 */
-
 public class Echo extends JFrame {
-    
+    // Sound Variables
     private final static String turnOnSound = "resources/audio/hellotune.wav";
     private final static String turnOffSound = "resources/audio/goodbyetune.aiff";
     private final static String swapSound = "resources/audio/woosh.wav";
     private final static String muteSound = "resources/audio/mute.wav";
     
+    /*ATTRIBUTES FOR LISTENING*/
+    private final static String KEY1 = "256a4ccc19dc41d7a75857c7dfd24825";
+    
+    // JPanel Attributes
+    private JPanel contentPane = (JPanel) getContentPane();
+    private JLayeredPane layeredPane = getLayeredPane();
+    
+    // Background Images
     private final ImageIcon topBackground = new ImageIcon( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") ) );
     private final ImageIcon sideBackground1 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background1.jpg") ) );;
     private final ImageIcon sideBackground2 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background2.jpg") ) );
     private final ImageIcon sideBackground3 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background3.jpg") ) );
  
+    // Echo Images
     private Image sideEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/echo.png"));
     private Image topEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/echo.png"));
-    private Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonon.png") );
     
+    // Mode Variables
     private final int OFFMODE = 1;
     private final int LISTENINGMODE = 2;
     private final int ANSWERMODE = 3;
@@ -40,25 +47,24 @@ public class Echo extends JFrame {
     private ChangeModeButton changeModeButton = new ChangeModeButton();
     private ChangeModeLabel changeModeLabel = new ChangeModeLabel();
     
+    private int currentView = SIDEVIEW;
+    
+    // Attributes for Background
     private final int FIRSTBG = 1;
     private final int SECONDBG = 2;
     private final int THIRDBG = 3;
-    
+
     private int currentBackground = 1;
     
-    
+    // Change Background Icons
     private ChangeBackgroundButton changeBackgroundButton = new ChangeBackgroundButton();
     private ChangeBackgroundLabel changeBackgroundLabel = new ChangeBackgroundLabel();
     
     /*ATTRIBUTE USED FOR SWAPPING BACKGROUND WHEN CHANGING VIEW*/
     private Background background = new Background();
     
-    private int currentView = SIDEVIEW;
-    
-    private JPanel contentPane = (JPanel) getContentPane();
-    private JLayeredPane layeredPane = getLayeredPane();
-    
     /*ATTRIBUTES FOR SIDE VIEW*/
+    private Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonon.png") );
     private Button button = new Button();
     private Light light = new Light();
     private JLabel side = new JLabel( new ImageIcon( sideEcho ) );
@@ -69,10 +75,9 @@ public class Echo extends JFrame {
     private JLabel top = new JLabel( new ImageIcon( topEcho ) );
     private TopLight topLight = new TopLight();
 
-    
-    /*ATTRIBUTES FOR LISTENING*/
-    private final static String KEY1 = "256a4ccc19dc41d7a75857c7dfd24825";
-    
+
+    private JLabel label1 = new JLabel();
+    private JLabel label2 = new JLabel();
     
     public Echo() {
         
@@ -97,9 +102,14 @@ public class Echo extends JFrame {
 	setLayout( null );
         pack();
         
-
         top.setBounds( 100, 101, 500, 500);
         side.setBounds( 250, 110, 200, 500);
+        
+        label1.setBounds(75, 378, 500, 500);
+        label2.setBounds(75, 408, 500, 500);
+        
+        layeredPane.add(label1, 0, 0);
+        layeredPane.add(label2, 0, 0);
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
         layeredPane.add(light, 0, 0);
@@ -126,9 +136,12 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
-                
+                layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 background.setTop();
+                layeredPane.add(label1, 0, 0);
+                layeredPane.add(label2, 0, 0);
                 layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -154,6 +167,8 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 switch(currentBackground){
                     case 1:
@@ -166,6 +181,8 @@ public class Echo extends JFrame {
                         background.setThree();
                         break;
                 }
+                layeredPane.add(label1, 0, 0);
+                layeredPane.add(label2, 0, 0);
                 layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -253,10 +270,12 @@ public class Echo extends JFrame {
     
     public void answer(String question){
     
+        label1.setText(question);
         String response = Wolfram.solve(question);
         
         switchModeTo(ANSWERMODE);
         
+        label2.setText(response);
         speak(response);
         
         switchModeTo(LISTENINGMODE);
@@ -304,7 +323,7 @@ public class Echo extends JFrame {
          */
          
         Background(){
-            setBounds(0, -125, 900, 900);
+            setBounds(0, -112, 900, 900);
             setOne();
         }
          
