@@ -262,9 +262,9 @@ public class Echo extends JFrame {
         /**
          * Method listens for speech then returns it in String format
          */
-        System.out.println("Listening...!");
+        label1.setText("Listening...");
         RecordSound.record();   //This needs to be replaced by an automatic process
-        System.out.println("Done listening...!");
+        label1.setText("Please wait.");
         SpeechToText.convert();
         
         final String token  = SpeechToText.renewAccessToken( KEY1 );
@@ -294,6 +294,7 @@ public class Echo extends JFrame {
     
     public void answer(String question){
     
+        label2.setText("Answering...");
         String response = Wolfram.solve(question);
         
         switchModeTo(ANSWERMODE);
@@ -315,6 +316,8 @@ public class Echo extends JFrame {
                 topButton.turnOff();
                 light.turnOff();
                 topLight.turnOff();
+                label1.setText("");
+                label2.setText("");
                 //microphone disable
                 playSound( turnOffSound);
                 currentMode = OFFMODE;
