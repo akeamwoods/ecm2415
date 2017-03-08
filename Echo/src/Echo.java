@@ -338,6 +338,14 @@ public class Echo extends JFrame {
     }    
     
     
+    Thread activityThread = new Thread( new Runnable() {
+                                public void run() {
+                                    String question = listen();
+                                    answer(question);
+                                }
+                            });
+    
+    
     public void switchModeTo(int nextMode){
         
         switch(nextMode){
@@ -346,6 +354,8 @@ public class Echo extends JFrame {
                 topButton.turnOff();
                 light.turnOff();
                 topLight.turnOff();
+                muteButton.turnOff();
+                
                 label1b.setText("");
                 label2b.setText("");
                 //microphone disable
@@ -424,18 +434,20 @@ public class Echo extends JFrame {
                         case OFFMODE:
                             switchModeTo(LISTENINGMODE);
                             
-                            new Thread( new Runnable() {
+                            Thread activityThread = new Thread( new Runnable() {
                                 public void run() {
                                     String question = listen();
                                     answer(question);
                                 }
-                            }).start();                          
+                            });
+                            activityThread.start();                          
                             
                             break;
                         case LISTENINGMODE:
                             switchModeTo(OFFMODE);
                             break;
                         case ANSWERMODE:
+                            switchModeTo(OFFMODE);
                             break;
                     }
                 }
@@ -536,7 +548,6 @@ public class Echo extends JFrame {
                             muteButton.turnOn();
                             topLight.turnMute();
                             light.turnMute();
-                //            button.turnOff();
                             topButton.turnOff();
                             currentMode = MUTEMODE;
                             break;
@@ -590,19 +601,16 @@ public class Echo extends JFrame {
         void turnOn() {
             setIcon( lightOn );
             status = 1;
-            System.out.println(status);
         }
         
         void turnOff() {
             setIcon( lightOff );
             status = 0;
-            System.out.println(status);
         }
         
         void turnMute() {
             setIcon( lightMute );
             status = -1;
-            System.out.println(status);
         }
         
         

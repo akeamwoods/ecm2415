@@ -58,7 +58,7 @@ class RecordSound {
         if ( n > 0 ) {
           for ( int i = 0; i < buffer.length; i++) {
             sum += buffer[i];
-          }
+        }
         
         double average = (double)sum/buffer.length;
         
@@ -71,11 +71,9 @@ class RecordSound {
         double averageMeanSquare = sumMeanSquare/buffer.length;
         double rootMeanSquare = Math.sqrt(averageMeanSquare);
         
-        System.out.println(rootMeanSquare);
-        
         bos.write( buffer, 0, n );
         
-        if ( counter > 3 && rootMeanSquare < 14 ){
+        if ( counter > 3 && rootMeanSquare < 30 ){
             break;
         }
         } else {
