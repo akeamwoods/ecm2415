@@ -113,13 +113,13 @@ public class Echo extends JFrame {
         label1a.setForeground(Color.BLACK);
         label1b.setBounds(75, 380, 500, 500);
         label1b.setFont(new Font("Helvetica", Font.ITALIC, 11));
-        label1b.setForeground(Color.GRAY);
+        label1b.setForeground(Color.BLACK);
         label2a.setBounds(23, 409, 500, 500);
         label2a.setFont(new Font("Helvetica", Font.BOLD, 12));
         label2a.setForeground(Color.BLACK);
         label2b.setBounds(75, 410, 500, 500);
         label2b.setFont(new Font("Helvetica", Font.ITALIC, 11));
-        label2b.setForeground(Color.GRAY);
+        label2b.setForeground(Color.BLACK);
         
         layeredPane.add(label1a, 0, 0);
         layeredPane.add(label2a, 0, 0);
