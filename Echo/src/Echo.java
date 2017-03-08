@@ -593,7 +593,7 @@ public class Echo extends JFrame {
         ImageIcon topLightOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightoff2.png") ) );
         ImageIcon topLightMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/muteplain.png") ) );
         
-        int status = 1;
+        int status = 0;
         
         TopLight() {
 
