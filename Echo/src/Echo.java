@@ -757,7 +757,7 @@ public class Echo extends JFrame {
         ImageIcon muteIconOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mutenoicon.png") ) );
 
         MuteIconTop() {
-            setBounds(10, 86, 300, 100);
+            setBounds(10, 96, 300, 100);
             setIcon( muteIconOff );
         }
  
@@ -778,7 +778,7 @@ public class Echo extends JFrame {
         ImageIcon muteIconSide = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/muteicon.png") ) );
 
         MuteIconSide() {
-            setBounds(10, 86, 300, 100);
+            setBounds(10, 96, 300, 100);
             setIcon( muteIconOff );
         }
  
