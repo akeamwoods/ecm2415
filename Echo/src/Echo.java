@@ -4,6 +4,8 @@ import java.awt.Toolkit;
 import java.awt.Image;
 import javax.swing.*;
 import answer.*;
+import java.awt.Font;
+import java.awt.Color;
 
 import javax.sound.sampled.AudioInputStream;
 /*
@@ -75,9 +77,10 @@ public class Echo extends JFrame {
     private JLabel top = new JLabel( new ImageIcon( topEcho ) );
     private TopLight topLight = new TopLight();
 
-
-    private JLabel label1 = new JLabel();
-    private JLabel label2 = new JLabel();
+    private JLabel label1a = new JLabel("Question: ");
+    private JLabel label1b = new JLabel();
+    private JLabel label2a = new JLabel("Answer: ");
+    private JLabel label2b = new JLabel();
     
     public Echo() {
         
@@ -105,11 +108,23 @@ public class Echo extends JFrame {
         top.setBounds( 100, 101, 500, 500);
         side.setBounds( 250, 110, 200, 500);
         
-        label1.setBounds(75, 378, 500, 500);
-        label2.setBounds(75, 408, 500, 500);
+        label1a.setBounds(16, 379, 500, 500);
+        label1a.setFont(new Font("Helvetica", Font.BOLD, 12));
+        label1a.setForeground(Color.BLACK);
+        label1b.setBounds(73, 379, 500, 500);
+        label1b.setFont(new Font("Helvetica", Font.ITALIC, 12));
+        label1b.setForeground(Color.GRAY);
+        label2a.setBounds(23, 409, 500, 500);
+        label2a.setFont(new Font("Helvetica", Font.BOLD, 12));
+        label2a.setForeground(Color.BLACK);
+        label2b.setBounds(73, 409, 500, 500);
+        label2b.setFont(new Font("Helvetica", Font.ITALIC, 12));
+        label2b.setForeground(Color.GRAY);
         
-        layeredPane.add(label1, 0, 0);
-        layeredPane.add(label2, 0, 0);
+        layeredPane.add(label1a, 0, 0);
+        layeredPane.add(label2a, 0, 0);
+        layeredPane.add(label1b, 0, 0);
+        layeredPane.add(label2b, 0, 0);
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
         layeredPane.add(light, 0, 0);
@@ -138,10 +153,14 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 background.setTop();
-                layeredPane.add(label1, 0, 0);
-                layeredPane.add(label2, 0, 0);
+                layeredPane.add(label1a, 0, 0);
+                layeredPane.add(label2a, 0, 0);
+                layeredPane.add(label1b, 0, 0);
+                layeredPane.add(label2b, 0, 0);
                 layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -169,6 +188,8 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 switch(currentBackground){
                     case 1:
@@ -181,8 +202,10 @@ public class Echo extends JFrame {
                         background.setThree();
                         break;
                 }
-                layeredPane.add(label1, 0, 0);
-                layeredPane.add(label2, 0, 0);
+                layeredPane.add(label1a, 0, 0);
+                layeredPane.add(label2a, 0, 0);
+                layeredPane.add(label1b, 0, 0);
+                layeredPane.add(label2b, 0, 0);
                 layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -264,7 +287,7 @@ public class Echo extends JFrame {
         
         currentMode = ANSWERMODE;
         
-        label1.setText(finalText);
+        label1b.setText(finalText);
         return finalText;
     }
     
@@ -275,7 +298,7 @@ public class Echo extends JFrame {
         
         switchModeTo(ANSWERMODE);
         
-        label2.setText(response);
+        label2b.setText(response);
         speak(response);
         
         switchModeTo(LISTENINGMODE);
