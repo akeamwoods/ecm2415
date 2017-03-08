@@ -75,7 +75,7 @@ class RecordSound {
         
         bos.write( buffer, 0, n );
         
-        if ( counter > 3 && rootMeanSquare < 14 ){
+        if ( counter > 3 && rootMeanSquare < 30 ){
             break;
         }
         } else {
