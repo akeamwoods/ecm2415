@@ -264,13 +264,13 @@ public class Echo extends JFrame {
         
         currentMode = ANSWERMODE;
         
+        label1.setText(finalText);
         return finalText;
     }
     
     
     public void answer(String question){
     
-        label1.setText(question);
         String response = Wolfram.solve(question);
         
         switchModeTo(ANSWERMODE);
