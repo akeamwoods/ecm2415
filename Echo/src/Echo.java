@@ -220,16 +220,17 @@ public class Echo extends JFrame {
                 layeredPane.add(side, 0, 0);
                 layeredPane.add(button, 0, 0);
                 layeredPane.add(light, 0, 0);
-                if (topLight.getStatus() == 1) {
-                    light.turnOn();
+                switch(topLight.getStatus()){
+                    case -1:
+                        light.turnMute();
+                        break;
+                    case 1:
+                        light.turnOn();
+                        break;
+                    case 0:
+                        light.turnOff();
+                        break;
                 }
-                else if (topLight.getStatus() == -1) {
-                    light.turnMute();
-                }
-                else {
-                    light.turnOff();
-                }
-                
                 layeredPane.repaint();
                 currentView = SIDEVIEW;
                 break;
@@ -564,16 +565,19 @@ public class Echo extends JFrame {
         void turnOn() {
             setIcon( lightOn );
             status = 1;
+            System.out.println(status);
         }
         
         void turnOff() {
             setIcon( lightOff );
             status = 0;
+            System.out.println(status);
         }
         
         void turnMute() {
             setIcon( lightMute );
             status = -1;
+            System.out.println(status);
         }
         
         
