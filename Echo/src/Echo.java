@@ -70,7 +70,8 @@ public class Echo extends JFrame {
     /*ATTRIBUTE USED FOR SWAPPING BACKGROUND WHEN CHANGING VIEW*/
     private Background background = new Background();
     
-    private MuteIcon muteIcon = new MuteIcon();
+    private MuteIconTop muteIconTop = new MuteIconTop();
+    private MuteIconSide muteIconSide = new MuteIconSide();
     
     /*ATTRIBUTES FOR SIDE VIEW*/
     private Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonon.png") );
@@ -135,7 +136,7 @@ public class Echo extends JFrame {
         layeredPane.add(label2b, 0, 0);
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
-        layeredPane.add(muteIcon, 0, 0);
+        layeredPane.add(muteIconSide, 0, 0);
         layeredPane.add(light, 0, 0);
         layeredPane.add(background, 0, -1 );
         layeredPane.add(changeModeButton, 0, 0);
@@ -175,7 +176,8 @@ public class Echo extends JFrame {
                 layeredPane.add(changeModeButton, 6, 0);
                 layeredPane.add(changeModeLabel, 5, 0);
                 layeredPane.add(top, 1, 0);
-                layeredPane.add(muteIcon, 10, 0);
+                layeredPane.add(muteIconTop, 10, 0);
+                layeredPane.add(muteIconSide, 0, 0);
                 layeredPane.add(muteButton, 4, 0);
                 layeredPane.add(topButton, 3, 0);
                 layeredPane.add(topLight, 2, 0);
@@ -189,6 +191,7 @@ public class Echo extends JFrame {
                 
             case TOPVIEW:
                 playSound( swapSound );
+                layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
@@ -217,7 +220,7 @@ public class Echo extends JFrame {
                 layeredPane.add(label2a, 0, 0);
                 layeredPane.add(label1b, 0, 0);
                 layeredPane.add(label2b, 0, 0);
-                layeredPane.add(muteIcon, 10, 0);
+                layeredPane.add(muteIconSide, 10, 0);
                 layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -532,17 +535,18 @@ public class Echo extends JFrame {
                     switch(currentMode){
                         case OFFMODE:
                             playSound( muteSound);
-                            muteIcon.turnOn();
+                            muteIconSide.turnOn();
+                            muteIconTop.turnOn();
                             muteButton.turnOn();
                             topLight.turnMute();
                             light.turnMute();
-                //            button.turnOff();
                             topButton.turnOff();
                             currentMode = MUTEMODE;
                             break;
                         case LISTENINGMODE:
                             playSound( muteSound);
-                            muteIcon.turnOn();
+                            muteIconSide.turnOn();
+                            muteIconTop.turnOn();
                             muteButton.turnOn();
                             topLight.turnMute();
                             light.turnMute();
@@ -552,7 +556,8 @@ public class Echo extends JFrame {
                             break;
                         case MUTEMODE:
                             playSound( muteSound);
-                            muteIcon.turnOff();
+                            muteIconSide.turnOff();
+                            muteIconTop.turnOff();
                             muteButton.turnOff();
                             topLight.turnOff();
                             currentMode = OFFMODE;
@@ -737,18 +742,40 @@ public class Echo extends JFrame {
         }   
     }
     
-   public class MuteIcon extends JLabel {
+   public class MuteIconTop extends JLabel {
     
+        ImageIcon muteIconTop = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/woodmute.png") ) );
         ImageIcon muteIconOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mutenoicon.png") ) );
-        ImageIcon muteIconOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/muteicon.png") ) );
 
-        MuteIcon() {
+        MuteIconTop() {
             setBounds(10, 86, 300, 100);
             setIcon( muteIconOff );
         }
+ 
         
         void turnOn() {
-            setIcon( muteIconOn );
+            setIcon( muteIconTop );
+        }
+        
+        void turnOff() {
+            setIcon( muteIconOff );
+        }
+        
+    }
+   
+   public class MuteIconSide extends JLabel {
+    
+        ImageIcon muteIconOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mutenoicon.png") ) );
+        ImageIcon muteIconSide = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/muteicon.png") ) );
+
+        MuteIconSide() {
+            setBounds(10, 86, 300, 100);
+            setIcon( muteIconOff );
+        }
+ 
+        
+        void turnOn() {
+            setIcon( muteIconSide );
         }
         
         void turnOff() {
