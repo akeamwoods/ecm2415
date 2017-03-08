@@ -77,6 +77,7 @@ public class Echo extends JFrame {
 
 
     private JLabel label1 = new JLabel();
+    private JLabel label2 = new JLabel();
     
     public Echo() {
         
@@ -104,9 +105,11 @@ public class Echo extends JFrame {
         top.setBounds( 100, 101, 500, 500);
         side.setBounds( 250, 110, 200, 500);
         
-        label1.setBounds(75, 382, 200, 500);
+        label1.setBounds(75, 378, 500, 500);
+        label2.setBounds(75, 408, 500, 500);
         
         layeredPane.add(label1, 0, 0);
+        layeredPane.add(label2, 0, 0);
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
         layeredPane.add(light, 0, 0);
@@ -134,9 +137,11 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 background.setTop();
                 layeredPane.add(label1, 0, 0);
+                layeredPane.add(label2, 0, 0);
                 layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -163,6 +168,7 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 System.out.println(currentBackground);
                 switch(currentBackground){
@@ -177,6 +183,7 @@ public class Echo extends JFrame {
                         break;
                 }
                 layeredPane.add(label1, 0, 0);
+                layeredPane.add(label2, 0, 0);
                 layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -269,6 +276,7 @@ public class Echo extends JFrame {
         
         switchModeTo(ANSWERMODE);
         
+        label2.setText(response);
         speak(response);
         
         switchModeTo(LISTENINGMODE);
@@ -315,7 +323,7 @@ public class Echo extends JFrame {
          */
          
         Background(){
-            setBounds(0, -125, 900, 900);
+            setBounds(0, -112, 900, 900);
             setOne();
         }
          
