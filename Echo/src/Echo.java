@@ -178,7 +178,6 @@ public class Echo extends JFrame {
                 
             case TOPVIEW:
                 playSound( swapSound );
-                topLight.turnOff();
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
@@ -217,13 +216,11 @@ public class Echo extends JFrame {
                 if (topLight.getStatus() == 1) {
                     light.turnOn();
                 }
-                /* 
-                TURNS OFF MUTEMODE WHEN SWITCHING VIEWS
-                */
-                muteButton.turnOff();
-                if(currentMode == MUTEMODE){
-                    playSound( turnOffSound);
-                    currentMode = OFFMODE;
+                if (topLight.getStatus() == 0) {
+                    light.turnOff();
+                }
+                if (topLight.getStatus() == -1) {
+                    light.turnMute();
                 }
                 
                 layeredPane.repaint();
@@ -504,18 +501,18 @@ public class Echo extends JFrame {
                             playSound( muteSound);
                             muteButton.turnOn();
                             topLight.turnMute();
-                            button.turnOff();
+                            light.turnMute();
+                //            button.turnOff();
                             topButton.turnOff();
-                            light.turnOff();
                             currentMode = MUTEMODE;
                             break;
                         case LISTENINGMODE:
                             playSound( muteSound);
                             muteButton.turnOn();
                             topLight.turnMute();
+                            light.turnMute();
                             button.turnOff();
-                            topButton.turnOff();
-                            light.turnOff();
+                            topButton.turnOff(); 
                             currentMode = MUTEMODE;
                             break;
                         case MUTEMODE:
@@ -545,6 +542,8 @@ public class Echo extends JFrame {
     
         ImageIcon lightOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/lighton.png") ) );
         ImageIcon lightOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/lightoff.png") ) );
+        ImageIcon lightMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/lightmute.png") ) );
+
         int status = 0;
         
         Light() {
@@ -562,6 +561,12 @@ public class Echo extends JFrame {
             status = 0;
         }
         
+        void turnMute() {
+            setIcon( lightMute );
+            status = -1;
+        }
+        
+        
         int getStatus() {
             return status;
         }
@@ -572,7 +577,7 @@ public class Echo extends JFrame {
     
         ImageIcon topLightOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lighton.gif") ) );
         ImageIcon topLightOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightoff2.png") ) );
-        ImageIcon topLightMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightmute.gif") ) );
+        ImageIcon topLightMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/muteplain.png") ) );
         
         int status = 1;
         
@@ -594,7 +599,7 @@ public class Echo extends JFrame {
         
         void turnMute() {
             setIcon( topLightMute );
-            status = 0;
+            status = -1;
         }
         
         int getStatus() {
