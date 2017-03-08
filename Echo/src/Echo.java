@@ -285,6 +285,7 @@ public class Echo extends JFrame {
     
     
     public void switchModeTo(int nextMode){
+        
         switch(nextMode){
             case OFFMODE:
                 button.turnOff();
