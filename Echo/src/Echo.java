@@ -349,8 +349,12 @@ public class Echo extends JFrame {
                         case OFFMODE:
                             switchModeTo(LISTENINGMODE);
                             
-                            String question = listen();
-                            answer(question);
+                            new Thread( new Runnable() {
+                                public void run() {
+                                    String question = listen();
+                                    answer(question);
+                                }
+                            }).start();                          
                             
                             break;
                         case LISTENINGMODE:
