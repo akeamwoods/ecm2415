@@ -371,7 +371,10 @@ public class Echo extends JFrame {
                 
             case ANSWERMODE:
                 
-                //all lights turn blue
+                button.turnOn();
+                topButton.turnOn();
+                topLight.turnOn();
+                light.turnOn();
                 //microphone is disabled
                 //on/off button is disabled
                 
@@ -385,6 +388,7 @@ public class Echo extends JFrame {
                 muteButton.turnOn();
                 topLight.turnMute();
                 light.turnMute();
+                button.turnMute();
                 
                 currentMode = MUTEMODE;
                 break;
