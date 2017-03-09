@@ -823,7 +823,7 @@ public class Echo extends JFrame {
 
         Notification() {
             setIcon( topview );
-            setBounds(205, -185, 800, 800);
+            setBounds(290, -235, 800, 800);
         }
         
         void closeNotification() {
@@ -838,7 +838,7 @@ public class Echo extends JFrame {
         ImageIcon closeInvis = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/tips/noclosebutton.png") ) );
         
         CloseNotification() {
-            setBounds( 411, 94, 153, 163);
+            setBounds( 228, 52, 153, 163);
             setBorderPainted(false);
             setContentAreaFilled(false); 
             setFocusPainted(false); 
