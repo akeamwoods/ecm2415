@@ -1,3 +1,5 @@
+package sound;
+
 import java.io.File;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,7 +18,7 @@ public class PlaySound {
   /*
    * Set up stream. 
    */
-  static AudioInputStream setupStream( String name ) {
+  public static AudioInputStream setupStream( String name ) {
     try {
       File             file = new File( name );
       AudioInputStream stm  = AudioSystem.getAudioInputStream( file );
@@ -29,7 +31,7 @@ public class PlaySound {
   /*
    * Read stream.
    */
-  static ByteArrayOutputStream readStream( AudioInputStream stm ) {
+  public static ByteArrayOutputStream readStream( AudioInputStream stm ) {
     try {
       AudioFormat           af  = stm.getFormat();
       ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -55,7 +57,7 @@ public class PlaySound {
   /*
    * Play stream.
    */
-  static void playStream( AudioInputStream stm, ByteArrayOutputStream bos ) {
+  public static void playStream( AudioInputStream stm, ByteArrayOutputStream bos ) {
     try {
       AudioFormat    af   = stm.getFormat();
       byte[]         ba   = bos.toByteArray();

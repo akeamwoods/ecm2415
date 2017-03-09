@@ -1,9 +1,13 @@
+package main;
+
+import answer.*;
+import speech.*;
+import sound.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Toolkit;
 import java.awt.Image;
 import javax.swing.*;
-import answer.*;
 import java.awt.Font;
 import java.awt.Color;
 import java.util.TimerTask;
@@ -14,33 +18,32 @@ import javax.sound.sampled.AudioInputStream;
 *Amazon Echo frame and constructor - 20//2017.
 */
 public class Echo extends JFrame {
-    // Sound Variables
+    
+    /*SOUNDS.*/
     private final static String turnOnSound = "resources/audio/hellotune.wav";
     private final static String turnOffSound = "resources/audio/goodbyetune.aiff";
     private final static String swapSound = "resources/audio/woosh.wav";
     private final static String muteSound = "resources/audio/mute.wav";
     
-    /*ATTRIBUTES FOR LISTENING*/
+    /*ACESS TOKEN AND KEY ATTRIBUTES.*/
     private final static String KEY1 = "256a4ccc19dc41d7a75857c7dfd24825";
     String token  = SpeechToText.renewAccessToken( KEY1 );
     static Timer timer = new Timer();
     static int seconds = 0;
     
-    // JPanel Attributes
+    /*JFRAME ATTRIBUTES*/
     private JPanel contentPane = (JPanel) getContentPane();
     private JLayeredPane layeredPane = getLayeredPane();
     
-    // Background Images
-    private final ImageIcon topBackground = new ImageIcon( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/background2.jpg") ) );
-    private final ImageIcon sideBackground1 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background1.jpg") ) );;
-    private final ImageIcon sideBackground2 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background2.jpg") ) );
-    private final ImageIcon sideBackground3 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/backgrounds/background3.jpg") ) );
+    private final ImageIcon topBackground = new ImageIcon( "resources/topview/background2.jpg" );
+    private final ImageIcon sideBackground1 = new ImageIcon ( "resources/sideview/backgrounds/background1.jpg" );
+    private final ImageIcon sideBackground2 = new ImageIcon ( "resources/sideview/backgrounds/background2.jpg" );
+    private final ImageIcon sideBackground3 = new ImageIcon ( "resources/sideview/backgrounds/background3.jpg" );
  
-    // Echo Images
     private Image sideEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/echo.png"));
     private Image topEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/echo.png"));
     
-    // Mode Variables
+    /*ECHO STATUS ATTRIBUTES*/
     private final int OFFMODE = 1;
     private final int LISTENINGMODE = 2;
     private final int ANSWERMODE = 3;
@@ -298,7 +301,7 @@ public class Echo extends JFrame {
          * Method listens for speech then returns it in String format
          */
         label1b.setText("Listening...");
-        RecordSound.record();   //This needs to be replaced by an automatic process
+        RecordSound.record();
         label1b.setText("Please wait.");
         
         final byte[] speech = SpeechToText.readData( "output.wav" );
@@ -316,10 +319,6 @@ public class Echo extends JFrame {
             return "why am I so rude";
         }
         
-        System.out.println(finalText);
-        
-        currentMode = ANSWERMODE;
-        
         label1b.setText(finalText);
         return finalText;
     }
@@ -327,62 +326,80 @@ public class Echo extends JFrame {
     
     public void answer(String question){
     
+        switchModeTo(ANSWERMODE);
         label2b.setText("Answering...");
         String response = Wolfram.solve(question);
-        
-        switchModeTo(ANSWERMODE);
         
         label2b.setText(response);
         speak(response);
         
-        switchModeTo(LISTENINGMODE);
-        
-        
     }    
-    
-    
-    Thread activityThread = new Thread( new Runnable() {
-                                public void run() {
-                                    String question = listen();
-                                    answer(question);
-                                }
-                            });
     
     
     public void switchModeTo(int nextMode){
         
         switch(nextMode){
             case OFFMODE:
+                
                 button.turnOff();
                 topButton.turnOff();
                 light.turnOff();
                 topLight.turnOff();
                 muteButton.turnOff();
+                muteIconTop.turnOff();
+                muteIconSide.turnOff();
                 
                 label1b.setText("");
                 label2b.setText("");
                 //microphone disable
-                playSound( turnOffSound);
+                
                 currentMode = OFFMODE;
                 break;
+                
             case LISTENINGMODE:
+                
                 button.turnOn();
                 topButton.turnOn();
                 topLight.turnOn();
                 light.turnOn();
-                //microphone enable
+                
+                Thread t = new Thread( new Activity() );
+                t.start();
+                
                 currentMode = LISTENINGMODE;
-                playSound( turnOnSound );
                 break;
+                
             case ANSWERMODE:
+                
                 //all lights turn blue
                 //microphone is disabled
                 //on/off button is disabled
+                
+                currentMode = ANSWERMODE;
                 break;
                 
+            case MUTEMODE:
+                
+                muteIconSide.turnOn();
+                muteIconTop.turnOn();
+                muteButton.turnOn();
+                topLight.turnMute();
+                light.turnMute();
+                
+                currentMode = MUTEMODE;
+                break;
         }
         
         
+    }
+    
+    
+    private class Activity implements Runnable {
+    
+        public void run() {
+            String question = listen();
+            answer(question);
+        }
     }
     
     
@@ -435,23 +452,20 @@ public class Echo extends JFrame {
                 public void actionPerformed( ActionEvent e ) {
                     switch(currentMode){
                         case OFFMODE:
+                            playSound( turnOnSound );
                             switchModeTo(LISTENINGMODE);
-                            
-                            Thread activityThread = new Thread( new Runnable() {
-                                public void run() {
-                                    String question = listen();
-                                    answer(question);
-                                }
-                            });
-                            activityThread.start();                          
-                            
                             break;
                         case LISTENINGMODE:
+                            playSound( turnOffSound);
                             switchModeTo(OFFMODE);
                             break;
                         case ANSWERMODE:
+                            playSound( turnOffSound);
                             switchModeTo(OFFMODE);
                             break;
+                        case MUTEMODE:
+                            playSound( turnOffSound );
+                            switchModeTo(OFFMODE);
                     }
                 }
             });
@@ -491,24 +505,16 @@ public class Echo extends JFrame {
                 public void actionPerformed( ActionEvent e ) {
                     switch(currentMode){
                         case OFFMODE:
-                            switchModeTo(LISTENINGMODE);
-                            
-                            new Thread( new Runnable() {
-                                public void run() {
-                                    String question = listen();
-                                    answer(question);
-                                }
-                            }).start();
-                            
                             break;
                         case LISTENINGMODE:
-                            switchModeTo(OFFMODE);
                             break;
                         case ANSWERMODE:
+                            playSound( turnOnSound );
+                            switchModeTo(LISTENINGMODE);
                             break;
-                    }
-                    
-                    
+                        case MUTEMODE:
+                            break;
+                    }     
                 }
             });
         }
@@ -546,33 +552,23 @@ public class Echo extends JFrame {
                 public void actionPerformed( ActionEvent e ) {
                     switch(currentMode){
                         case OFFMODE:
-                            playSound( muteSound);
-                            muteIconSide.turnOn();
-                            muteIconTop.turnOn();
-                            muteButton.turnOn();
-                            topLight.turnMute();
-                            light.turnMute();
-                            topButton.turnOff();
-                            currentMode = MUTEMODE;
                             break;
                         case LISTENINGMODE:
-                            playSound( muteSound);
-                            muteIconSide.turnOn();
-                            muteIconTop.turnOn();
-                            muteButton.turnOn();
-                            topLight.turnMute();
-                            light.turnMute();
-                            button.turnOff();
-                            topButton.turnOff(); 
-                            currentMode = MUTEMODE;
+                //            playSound( muteSound);    nothing for now until it's sorted.
+                //            switchModeTo( MUTEMODE );
+                            break;
+                        case ANSWERMODE:
+                            playSound( muteSound );
+                            switchModeTo( MUTEMODE );
                             break;
                         case MUTEMODE:
                             playSound( muteSound);
                             muteIconSide.turnOff();
                             muteIconTop.turnOff();
                             muteButton.turnOff();
-                            topLight.turnOff();
-                            currentMode = OFFMODE;
+                            topLight.turnOn();
+                            light.turnOn();
+                            switchModeTo( ANSWERMODE );
                             break;
                     }
 

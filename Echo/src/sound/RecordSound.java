@@ -1,3 +1,5 @@
+package sound;
+
 import java.io.File;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -11,7 +13,7 @@ import javax.sound.sampled.TargetDataLine;
 /*
  * Record sound. David Wakeling, 2017.
  */
-class RecordSound {
+public class RecordSound {
   private static final String  FILENAME        = "output.wav";
   private static final int     TIMER           = 20;     /* secs */
   private static final int     SAMPLE_RATE     = 16000; /* MHz  */
@@ -73,7 +75,7 @@ class RecordSound {
         
         bos.write( buffer, 0, n );
         
-        if ( counter > 3 && rootMeanSquare < 30 ){
+        if ( counter < 19 && rootMeanSquare < 25 ){
             break;
         }
         } else {

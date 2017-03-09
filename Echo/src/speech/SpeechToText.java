@@ -1,3 +1,6 @@
+package speech;
+
+import main.HttpConnect;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.DataInputStream;
@@ -19,7 +22,7 @@ public class SpeechToText {
   /*
    * Renew an access token --- they expire after 10 minutes.
    */
-  static String renewAccessToken( String key1 ) {
+  public static String renewAccessToken( String key1 ) {
     final String method = "POST";
     final String url = 
       "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
@@ -35,7 +38,7 @@ public class SpeechToText {
   /*
    * Recognize speech.
    */
-  static String recognizeSpeech( String token, byte[] body ) { 
+  public static String recognizeSpeech( String token, byte[] body ) { 
     final String method = "POST";
     final String url    
       = ( "https://speech.platform.bing.com/recognize"
@@ -60,7 +63,7 @@ public class SpeechToText {
   /*
    * Read data from file.
    */
-  static byte[] readData( String name ) {
+  public static byte[] readData( String name ) {
     try {
       File            file = new File( name );
       FileInputStream fis  = new FileInputStream( file );
@@ -72,15 +75,5 @@ public class SpeechToText {
     } catch ( Exception ex ) {
       System.out.println( ex ); System.exit( 1 ); return null;
     }
-  }
-
-  /*
-   * Convert speech to text.
-   */
-  public static void convert() {
-    final String token  = renewAccessToken( KEY1 );
-    final byte[] speech = readData( INPUT );
-    final String text   = recognizeSpeech( token, speech );
-//    System.out.println( text );
   }
 }
