@@ -438,6 +438,8 @@ public class Echo extends JFrame {
         
         ImageIcon buttonOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonoff.png") ) );
         ImageIcon buttonOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonon.png") ) );
+        ImageIcon buttonMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonmute.png") ) );
+
         int status = 0;
         
         Button() {
@@ -479,6 +481,11 @@ public class Echo extends JFrame {
         void turnOff() {
             setIcon( buttonOff );
             status = 0;
+        }
+        
+        void turnMute() {
+            setIcon( buttonMute );
+            status = -1;
         }
         
         int getStatus() {
@@ -753,7 +760,7 @@ public class Echo extends JFrame {
         ImageIcon muteIconOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mutenoicon.png") ) );
 
         MuteIconTop() {
-            setBounds(10, 86, 300, 100);
+            setBounds(10, 96, 300, 100);
             setIcon( muteIconOff );
         }
  
@@ -774,7 +781,7 @@ public class Echo extends JFrame {
         ImageIcon muteIconSide = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/muteicon.png") ) );
 
         MuteIconSide() {
-            setBounds(10, 86, 300, 100);
+            setBounds(10, 96, 300, 100);
             setIcon( muteIconOff );
         }
  
