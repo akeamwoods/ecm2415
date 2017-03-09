@@ -93,6 +93,9 @@ public class Echo extends JFrame {
     private JLabel label2a = new JLabel("Answer: ");
     private JLabel label2b = new JLabel();
     
+    private Notification topview = new Notification();
+    private CloseNotification closeButton = new CloseNotification();
+    
     public Echo() {
         
         /**
@@ -171,6 +174,8 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 
                 background.setTop();
+                layeredPane.add(closeButton, 16, 0);
+                layeredPane.add(topview, 15, 0);
                 layeredPane.add(label1a, 10, 0);
                 layeredPane.add(label2a, 9, 0);
                 layeredPane.add(label1b, 8, 0);
@@ -194,6 +199,8 @@ public class Echo extends JFrame {
                 
             case TOPVIEW:
                 playSound( swapSound );
+                layeredPane.remove(0);
+                layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
@@ -389,6 +396,7 @@ public class Echo extends JFrame {
                 topLight.turnMute();
                 light.turnMute();
                 button.turnMute();
+                topButton.turnMute();
                 
                 currentMode = MUTEMODE;
                 break;
@@ -502,6 +510,8 @@ public class Echo extends JFrame {
         
         ImageIcon topButtonOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/actionbuttonoff.png") ) );
         ImageIcon topButtonOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/actionbuttonon.png") ) );
+        ImageIcon topButtonMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/actionbuttonmuted.png") ) );
+
         int status = 0;
         
         ActionButton() {
@@ -538,6 +548,11 @@ public class Echo extends JFrame {
         void turnOff() {
             setIcon( topButtonOff );
             status = 0;
+        }
+        
+        void turnMute(){
+            setIcon(topButtonMute);
+            status = -1;
         }
         
         int getStatus() {
@@ -707,7 +722,7 @@ public class Echo extends JFrame {
         
         ChangeModeLabel() {
             setIcon( label );
-            setBounds(616, 144, 90, 101);
+            setBounds(616, 146, 90, 101);
         }   
     }
     
@@ -799,11 +814,55 @@ public class Echo extends JFrame {
         }
         
     }
-    
+   
+   
+   public class Notification extends JLabel {
+       
+       ImageIcon topview = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/tips/topview.png") ) );
+       ImageIcon close = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/tips/close.png") ) );
+
+        Notification() {
+            setIcon( topview );
+            setBounds(205, -185, 800, 800);
+        }
+        
+        void closeNotification() {
+            setIcon( close );
+        }
+           
+   }
+   
+   public class CloseNotification extends JButton {
+        
+        ImageIcon closeBut = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/tips/closebutton.png") ) );
+        ImageIcon closeInvis = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/tips/noclosebutton.png") ) );
+        
+        CloseNotification() {
+            setBounds( 411, 94, 153, 163);
+            setBorderPainted(false);
+            setContentAreaFilled(false); 
+            setFocusPainted(false); 
+            setBorder( null );
+            setOpaque(false);
+            setIcon( closeBut );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setIcon(closeInvis);
+                    closeButton.setEnabled(false);
+                    topview.closeNotification();
+                }
+            }
+            );
+        }
+   }
+           
+   
+   
+   
     public static void main( String[] argv ){
 	JFrame frame = new Echo();
 	frame.setResizable( false );
 	frame.setVisible( true );
-        
     }
+    
 }
