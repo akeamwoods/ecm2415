@@ -98,6 +98,9 @@ public class Echo extends JFrame {
     private Notification topview = new Notification();
     private CloseNotification closeButton = new CloseNotification();
     
+    private InternetCheck noInternet = new InternetCheck();
+
+    
     public Echo() {
         
         /**
@@ -122,6 +125,7 @@ public class Echo extends JFrame {
 	setLayout( null );
         pack();
         
+        
         top.setBounds( 137, 139, 426, 425);
         side.setBounds( 250, 110, 200, 500);
         
@@ -137,6 +141,7 @@ public class Echo extends JFrame {
         label2b.setBounds(75, 410, 610, 500);
         label2b.setFont(new Font("Helvetica", Font.ITALIC, 11));
         label2b.setForeground(Color.BLACK);
+        layeredPane.add(noInternet, 100, 0);
         layeredPane.add(currentLabel, 6, 0);
         currentLabel.SetSide();
         layeredPane.add(label1a, 0, 0);
@@ -888,6 +893,26 @@ public class Echo extends JFrame {
            setIcon( side );
        }
           
+    }
+    
+    public class InternetCheck extends JLabel{
+        
+        private ImageIcon internetDisconnected = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/nointernet.png")));
+        private ImageIcon internetConnected = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/internet.png")));
+
+        InternetCheck(){
+            setBounds(0, 0, 700, 677);
+            setIcon(internetConnected);
+        }
+        
+        void Connected(){
+            setIcon( internetDisconnected );
+        }
+        
+        void Disconnected(){
+            setIcon( internetDisconnected );
+        }
+        
     }
    
     
