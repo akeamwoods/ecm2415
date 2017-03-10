@@ -42,8 +42,6 @@ public class Echo extends JFrame {
  
     private Image sideEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/echo.png"));
     private Image topEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/echo.png"));
-    private Image currentSide = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside.png"));
-    private Image currentTop = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/currenttop.png"));
     
     /*ECHO STATUS ATTRIBUTES*/
     private final int OFFMODE = 1;
@@ -60,6 +58,7 @@ public class Echo extends JFrame {
     private ChangeModeLabel changeModeLabel = new ChangeModeLabel();
     
     private int currentView = SIDEVIEW;
+    private CurrentViewLabel currentLabel = new CurrentViewLabel();
     
     // Attributes for Background
     private final int FIRSTBG = 1;
@@ -83,14 +82,13 @@ public class Echo extends JFrame {
     private Button button = new Button();
     private Light light = new Light();
     private JLabel side = new JLabel( new ImageIcon( sideEcho ) );
-    private JLabel sidelabel = new JLabel( new ImageIcon( currentSide ) );
+    
     
     /*ATTRIBUTES FOR TOP VIEW*/
     private ActionButton topButton = new ActionButton();
     private MuteButton muteButton = new MuteButton();
     private JLabel top = new JLabel( new ImageIcon( topEcho ) );
     private TopLight topLight = new TopLight();
-    private JLabel toplabel = new JLabel( new ImageIcon( currentTop ) );
 
     private JLabel label1a = new JLabel("Question: ");
     private JLabel label1b = new JLabel();
@@ -126,8 +124,6 @@ public class Echo extends JFrame {
         
         top.setBounds( 137, 139, 426, 425);
         side.setBounds( 250, 110, 200, 500);
-        sidelabel.setBounds(10, 110, 192, 71);
-        toplabel.setBounds(10, 110, 192, 71);
         
         label1a.setBounds(16, 379, 500, 500);
         label1a.setFont(new Font("Helvetica", Font.BOLD, 12));
@@ -141,7 +137,7 @@ public class Echo extends JFrame {
         label2b.setBounds(75, 410, 500, 500);
         label2b.setFont(new Font("Helvetica", Font.ITALIC, 11));
         label2b.setForeground(Color.BLACK);
-        layeredPane.add(sidelabel, 6, 0);
+        layeredPane.add(currentLabel, 6, 0);
         layeredPane.add(label1a, 0, 0);
         layeredPane.add(label2a, 0, 0);
         layeredPane.add(label1b, 0, 0);
@@ -188,7 +184,7 @@ public class Echo extends JFrame {
                 layeredPane.add(label2a, 6, 0);
                 layeredPane.add(label1b, 6, 0);
                 layeredPane.add(label2b, 6, 0);
-                layeredPane.add(toplabel, 6, 0);
+                layeredPane.add(currentLabel, 6, 0);
                 layeredPane.add(changeModeButton, 5, 1);
                 layeredPane.add(changeModeLabel, 5, 2);
                 layeredPane.add(muteIconTop, 4, 0);
@@ -235,7 +231,7 @@ public class Echo extends JFrame {
                         background.setThree();
                         break;
                 }
-                layeredPane.add(sidelabel, 6, 0);
+                layeredPane.add(currentLabel, 6, 0);
                 layeredPane.add(label1a, 0, 0);
                 layeredPane.add(label2a, 0, 0);
                 layeredPane.add(label1b, 0, 0);
@@ -437,21 +433,25 @@ public class Echo extends JFrame {
          
         void setOne(){
             setIcon(sideBackground1);
+            currentLabel.SetSide1();
             currentBackground = 1;
         }
          
         void setTwo(){
             setIcon(sideBackground2);
+            currentLabel.SetSide2();
             currentBackground = 2;
         }
          
         void setThree(){
             setIcon(sideBackground3);
+            currentLabel.SetSide3();
             currentBackground = 3;
         }  
         
         void setTop(){
             setIcon(topBackground);
+            currentLabel.SetTop();
         }
     }
 
@@ -754,14 +754,17 @@ public class Echo extends JFrame {
                     switch(currentBackground){
                         case FIRSTBG:
                             background.setTwo();
+                          
                             currentBackground = SECONDBG;
                             break;
                         case SECONDBG:
                             background.setThree();
+                            
                             currentBackground = THIRDBG;
                             break;
                         case THIRDBG:
                             background.setOne();
+                            
                             currentBackground = FIRSTBG;
                             break;
                     }
@@ -868,6 +871,37 @@ public class Echo extends JFrame {
            
    
    
+    
+    
+    public class CurrentViewLabel extends JLabel{
+        private ImageIcon top = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/currenttop.png")));
+        private ImageIcon side1 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside1.png")));
+        private ImageIcon side2 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside2.png")));
+        private ImageIcon side3 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside3.png")));
+
+        
+       CurrentViewLabel(){
+           setBounds(10, 110, 192, 71);
+           setIcon( side1 );
+       }
+       
+       void SetTop(){
+           setIcon( top );
+       }
+       
+       void SetSide1(){
+           setIcon( side1 );
+       }
+       
+       void SetSide2(){
+           setIcon( side2 );
+       }
+       
+       void SetSide3(){
+           setIcon( side3 );
+       }
+       
+    }
    
     public static void main( String[] argv ){
 	JFrame frame = new Echo();
