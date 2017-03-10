@@ -42,6 +42,8 @@ public class Echo extends JFrame {
  
     private Image sideEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/echo.png"));
     private Image topEcho = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/echo.png"));
+    private Image currentSide = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside.png"));
+    private Image currentTop = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/currenttop.png"));
     
     /*ECHO STATUS ATTRIBUTES*/
     private final int OFFMODE = 1;
@@ -81,12 +83,14 @@ public class Echo extends JFrame {
     private Button button = new Button();
     private Light light = new Light();
     private JLabel side = new JLabel( new ImageIcon( sideEcho ) );
+    private JLabel sidelabel = new JLabel( new ImageIcon( currentSide ) );
     
     /*ATTRIBUTES FOR TOP VIEW*/
     private ActionButton topButton = new ActionButton();
     private MuteButton muteButton = new MuteButton();
     private JLabel top = new JLabel( new ImageIcon( topEcho ) );
     private TopLight topLight = new TopLight();
+    private JLabel toplabel = new JLabel( new ImageIcon( currentTop ) );
 
     private JLabel label1a = new JLabel("Question: ");
     private JLabel label1b = new JLabel();
@@ -120,8 +124,10 @@ public class Echo extends JFrame {
 	setLayout( null );
         pack();
         
-        top.setBounds( 100, 101, 500, 500);
+        top.setBounds( 137, 139, 426, 425);
         side.setBounds( 250, 110, 200, 500);
+        sidelabel.setBounds(10, 110, 192, 71);
+        toplabel.setBounds(10, 110, 192, 71);
         
         label1a.setBounds(16, 379, 500, 500);
         label1a.setFont(new Font("Helvetica", Font.BOLD, 12));
@@ -135,7 +141,7 @@ public class Echo extends JFrame {
         label2b.setBounds(75, 410, 500, 500);
         label2b.setFont(new Font("Helvetica", Font.ITALIC, 11));
         label2b.setForeground(Color.BLACK);
-        
+        layeredPane.add(sidelabel, 6, 0);
         layeredPane.add(label1a, 0, 0);
         layeredPane.add(label2a, 0, 0);
         layeredPane.add(label1b, 0, 0);
@@ -172,26 +178,29 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 background.setTop();
-                layeredPane.add(closeButton, 16, 0);
-                layeredPane.add(topview, 15, 0);
-                layeredPane.add(label1a, 10, 0);
-                layeredPane.add(label2a, 9, 0);
-                layeredPane.add(label1b, 8, 0);
-                layeredPane.add(label2b, 7, 0);
-                layeredPane.add(background, 0, 0 );
-                layeredPane.add(changeModeButton, 6, 0);
-                layeredPane.add(changeModeLabel, 5, 0);
-                layeredPane.add(top, 1, 0);
-                layeredPane.add(muteIconTop, 10, 0);
-                layeredPane.add(muteIconSide, 0, 0);
-                layeredPane.add(muteButton, 4, 0);
+                
+                layeredPane.add(closeButton, 11, 0);
+                layeredPane.add(topview, 10, 0);
+                layeredPane.add(label1a, 6, 0);
+                layeredPane.add(label2a, 6, 0);
+                layeredPane.add(label1b, 6, 0);
+                layeredPane.add(label2b, 6, 0);
+                layeredPane.add(toplabel, 6, 0);
+                layeredPane.add(changeModeButton, 5, 1);
+                layeredPane.add(changeModeLabel, 5, 2);
+                layeredPane.add(muteIconTop, 4, 0);
+                layeredPane.add(muteButton, 3, 0);
                 layeredPane.add(topButton, 3, 0);
                 layeredPane.add(topLight, 2, 0);
+                layeredPane.add(top, 1, 0);
+                layeredPane.add(background, 0, 0 );
                 if (light.getStatus() == 1) {
                     topLight.turnOn();
                 }
+                
            
                 layeredPane.repaint();
                 currentView = TOPVIEW;
@@ -226,6 +235,7 @@ public class Echo extends JFrame {
                         background.setThree();
                         break;
                 }
+                layeredPane.add(sidelabel, 6, 0);
                 layeredPane.add(label1a, 0, 0);
                 layeredPane.add(label2a, 0, 0);
                 layeredPane.add(label1b, 0, 0);
@@ -515,7 +525,7 @@ public class Echo extends JFrame {
         int status = 0;
         
         ActionButton() {
-            setBounds( 388, 266, 153, 163);
+            setBounds( 388, 267, 153, 163);
             setBorderPainted(false);
             setContentAreaFilled(false); 
             setFocusPainted(false); 
@@ -652,13 +662,13 @@ public class Echo extends JFrame {
     
         ImageIcon topLightOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lighton.gif") ) );
         ImageIcon topLightOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightoff2.png") ) );
-        ImageIcon topLightMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/muteplain.png") ) );
+        ImageIcon topLightMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/slowmute.gif") ) );
         
         int status = 0;
         
         TopLight() {
 
-            setBounds(0, -62, 800, 800);
+            setBounds(0, 0, 700, 677);
             setIcon( topLightOff );
         }
         
@@ -779,7 +789,7 @@ public class Echo extends JFrame {
         ImageIcon muteIconOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mutenoicon.png") ) );
 
         MuteIconTop() {
-            setBounds(10, 96, 300, 100);
+            setBounds(10, 527, 300, 100);
             setIcon( muteIconOff );
         }
  
@@ -800,7 +810,7 @@ public class Echo extends JFrame {
         ImageIcon muteIconSide = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/muteicon.png") ) );
 
         MuteIconSide() {
-            setBounds(10, 96, 300, 100);
+            setBounds(10, 527, 300, 100);
             setIcon( muteIconOff );
         }
  
@@ -818,12 +828,12 @@ public class Echo extends JFrame {
    
    public class Notification extends JLabel {
        
-       ImageIcon topview = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/tips/topview.png") ) );
-       ImageIcon close = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/tips/close.png") ) );
+       ImageIcon topview = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/topview.png") ) );
+       ImageIcon close = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/close.png") ) );
 
         Notification() {
             setIcon( topview );
-            setBounds(290, -235, 800, 800);
+            setBounds(290, 120, 318, 90);
         }
         
         void closeNotification() {
@@ -834,11 +844,11 @@ public class Echo extends JFrame {
    
    public class CloseNotification extends JButton {
         
-        ImageIcon closeBut = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/tips/closebutton.png") ) );
-        ImageIcon closeInvis = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/tips/noclosebutton.png") ) );
+        ImageIcon closeBut = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/closebutton.png") ) );
+        ImageIcon closeInvis = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/noclosebutton.png") ) );
         
         CloseNotification() {
-            setBounds( 228, 52, 153, 163);
+            setBounds( 295, 125, 14, 14);
             setBorderPainted(false);
             setContentAreaFilled(false); 
             setFocusPainted(false); 
