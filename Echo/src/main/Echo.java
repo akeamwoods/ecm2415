@@ -128,13 +128,13 @@ public class Echo extends JFrame {
         label1a.setBounds(16, 379, 500, 500);
         label1a.setFont(new Font("Helvetica", Font.BOLD, 12));
         label1a.setForeground(Color.BLACK);
-        label1b.setBounds(75, 380, 500, 500);
+        label1b.setBounds(75, 380, 610, 500);
         label1b.setFont(new Font("Helvetica", Font.ITALIC, 11));
         label1b.setForeground(Color.BLACK);
         label2a.setBounds(23, 409, 500, 500);
         label2a.setFont(new Font("Helvetica", Font.BOLD, 12));
         label2a.setForeground(Color.BLACK);
-        label2b.setBounds(75, 410, 500, 500);
+        label2b.setBounds(75, 410, 610, 500);
         label2b.setFont(new Font("Helvetica", Font.ITALIC, 11));
         label2b.setForeground(Color.BLACK);
         layeredPane.add(currentLabel, 6, 0);
@@ -145,7 +145,7 @@ public class Echo extends JFrame {
         layeredPane.add(label2b, 0, 0);
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
-        layeredPane.add(muteIconSide, 0, 0);
+        layeredPane.add(muteIconTop, 0, 0);
         layeredPane.add(light, 0, 0);
         layeredPane.add(background, 0, -1 );
         layeredPane.add(changeModeButton, 0, 0);
@@ -239,7 +239,7 @@ public class Echo extends JFrame {
                 layeredPane.add(label2a, 0, 0);
                 layeredPane.add(label1b, 0, 0);
                 layeredPane.add(label2b, 0, 0);
-                layeredPane.add(muteIconSide, 10, 0);
+                layeredPane.add(muteIconTop, 10, 0);
                 layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
