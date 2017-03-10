@@ -138,6 +138,7 @@ public class Echo extends JFrame {
         label2b.setFont(new Font("Helvetica", Font.ITALIC, 11));
         label2b.setForeground(Color.BLACK);
         layeredPane.add(currentLabel, 6, 0);
+        currentLabel.SetSide();
         layeredPane.add(label1a, 0, 0);
         layeredPane.add(label2a, 0, 0);
         layeredPane.add(label1b, 0, 0);
@@ -185,6 +186,7 @@ public class Echo extends JFrame {
                 layeredPane.add(label1b, 6, 0);
                 layeredPane.add(label2b, 6, 0);
                 layeredPane.add(currentLabel, 6, 0);
+                currentLabel.SetTop();
                 layeredPane.add(changeModeButton, 5, 1);
                 layeredPane.add(changeModeLabel, 5, 2);
                 layeredPane.add(muteIconTop, 4, 0);
@@ -232,6 +234,7 @@ public class Echo extends JFrame {
                         break;
                 }
                 layeredPane.add(currentLabel, 6, 0);
+                currentLabel.SetSide();
                 layeredPane.add(label1a, 0, 0);
                 layeredPane.add(label2a, 0, 0);
                 layeredPane.add(label1b, 0, 0);
@@ -433,19 +436,16 @@ public class Echo extends JFrame {
          
         void setOne(){
             setIcon(sideBackground1);
-            currentLabel.SetSide1();
             currentBackground = 1;
         }
          
         void setTwo(){
             setIcon(sideBackground2);
-            currentLabel.SetSide2();
             currentBackground = 2;
         }
          
         void setThree(){
             setIcon(sideBackground3);
-            currentLabel.SetSide3();
             currentBackground = 3;
         }  
         
@@ -845,6 +845,7 @@ public class Echo extends JFrame {
            
    }
    
+   
    public class CloseNotification extends JButton {
         
         ImageIcon closeBut = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/closebutton.png") ) );
@@ -870,39 +871,26 @@ public class Echo extends JFrame {
    }
            
    
-   
-    
-    
     public class CurrentViewLabel extends JLabel{
         private ImageIcon top = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/currenttop.png")));
-        private ImageIcon side1 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside1.png")));
-        private ImageIcon side2 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside2.png")));
-        private ImageIcon side3 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside3.png")));
-
+        private ImageIcon side = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside1.png")));
         
        CurrentViewLabel(){
            setBounds(10, 110, 192, 71);
-           setIcon( side1 );
+           setIcon( side );
        }
        
        void SetTop(){
            setIcon( top );
        }
        
-       void SetSide1(){
-           setIcon( side1 );
+       void SetSide(){
+           setIcon( side );
        }
-       
-       void SetSide2(){
-           setIcon( side2 );
-       }
-       
-       void SetSide3(){
-           setIcon( side3 );
-       }
-       
+          
     }
    
+    
     public static void main( String[] argv ){
 	JFrame frame = new Echo();
 	frame.setResizable( false );
