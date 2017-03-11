@@ -19,6 +19,8 @@ public class RecordSound {
   private static final int     SAMPLE_RATE     = 16000; /* MHz  */
   private static final int     SAMPLE_SIZE     = 16;    /* bits */
   private static final int     SAMPLE_CHANNELS = 1;     /* mono */
+  static volatile boolean      PLAY            = true;
+  
 
   /*
    * Set up stream.
@@ -47,39 +49,46 @@ public class RecordSound {
    * Read stream.
    */
   static ByteArrayOutputStream readStream( AudioInputStream stm ) {
+      
     try {
       ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
       int  bufferSize = SAMPLE_RATE * stm.getFormat().getFrameSize();
       byte buffer[]   = new byte[ bufferSize ];
 
+      PLAY = true;
       for ( int counter = TIMER; counter > 0; counter-- ) {
-        int sum = 0;
-        int n = stm.read( buffer, 0, buffer.length );
-        
-        if ( n > 0 ) {
-          for ( int i = 0; i < buffer.length; i++) {
-            sum += buffer[i];
+        if (PLAY == true) {
+            int sum = 0;
+            int n = stm.read( buffer, 0, buffer.length );
+
+            if ( n > 0 ) {
+              for ( int i = 0; i < buffer.length; i++) {
+                sum += buffer[i];
+            }
+
+            double average = (double)sum/buffer.length;
+
+            double sumMeanSquare = 0;;
+            for (int i = 0; i < buffer.length; i++) {
+                double f = buffer[i] - average;
+                sumMeanSquare += f * f;
+            }
+
+            double averageMeanSquare = sumMeanSquare/buffer.length;
+            double rootMeanSquare = Math.sqrt(averageMeanSquare);
+
+            bos.write( buffer, 0, n );
+
+            if ( counter < 19 && rootMeanSquare < 25 ){
+                break;
+            }
+            } else {
+              break;
+            }
         }
-        
-        double average = (double)sum/buffer.length;
-        
-        double sumMeanSquare = 0;;
-        for (int i = 0; i < buffer.length; i++) {
-            double f = buffer[i] - average;
-            sumMeanSquare += f * f;
-        }
-        
-        double averageMeanSquare = sumMeanSquare/buffer.length;
-        double rootMeanSquare = Math.sqrt(averageMeanSquare);
-        
-        bos.write( buffer, 0, n );
-        
-        if ( counter < 19 && rootMeanSquare < 25 ){
-            break;
-        }
-        } else {
-	  break;
+        else {
+            return null;
         }
       }
 
@@ -110,12 +119,24 @@ public class RecordSound {
       System.out.println( ex ); System.exit( 1 );
     }
   }
+  
+  
+  /*
+   * Stop recording. 
+   */
+  public static void stop() {
+      PLAY = false;
+  }
 
   /*
    * Record sound.
    */
   public static void record() {
+      
     AudioInputStream stm = setupStream();
-    recordSound( FILENAME, readStream( stm ) );
+    ByteArrayOutputStream bos = readStream(stm);
+    if (bos != null) {
+      recordSound( FILENAME, bos );
+    }
   }
 }

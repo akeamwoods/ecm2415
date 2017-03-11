@@ -77,8 +77,11 @@ public class Echo extends JFrame {
     private MuteIconTop muteIconTop = new MuteIconTop();
     private MuteIconSide muteIconSide = new MuteIconSide();
     
+    RecordSound recorder = new RecordSound();
+    static PlaySound player = new PlaySound();
+    
     /*ATTRIBUTES FOR SIDE VIEW*/
-    private Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonon.png") );
+    private ImageIcon icon = new ImageIcon( "/sideview/buttonon.png" );
     private Button button = new Button();
     private Light light = new Light();
     private JLabel side = new JLabel( new ImageIcon( sideEcho ) );
@@ -118,7 +121,7 @@ public class Echo extends JFrame {
         setTitle( "Amazon Echo Simulator" );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setContentPane( new JLabel(sideBackground1) );
-	setIconImage( (new ImageIcon ( icon ).getImage() ) );
+	setIconImage( icon.getImage() );
 	setLayout( null );
         pack();
         
@@ -267,8 +270,8 @@ public class Echo extends JFrame {
         
         new Thread(new Runnable() {
             public void run() {
-                AudioInputStream stream = PlaySound.setupStream( url );
-                PlaySound.playStream( stream, PlaySound.readStream( stream ) );
+                AudioInputStream stream = player.setupStream( url );
+                player.playStream( stream, player.readStream( stream ) );
             }
         }).start();
     }
@@ -314,38 +317,47 @@ public class Echo extends JFrame {
          * Method listens for speech then returns it in String format
          */
         label1b.setText("Listening...");
-        RecordSound.record();
-        label1b.setText("Please wait.");
+
+            recorder.record();
         
-        final byte[] speech = SpeechToText.readData( "output.wav" );
-        final String text   = SpeechToText.recognizeSpeech( token, speech );
-        
-        int startIndex = text.indexOf("name") + 7;
-        int endIndex = startIndex;
-        while (text.charAt(endIndex) != '\"') {
-            endIndex++;
+        if( currentMode == LISTENINGMODE ) {
+            label1b.setText("Please wait.");
+            
+            final byte[] speech = SpeechToText.readData( "output.wav" );
+            final String text   = SpeechToText.recognizeSpeech( token, speech );
+
+            int startIndex = text.indexOf("name") + 7;
+            int endIndex = startIndex;
+            while (text.charAt(endIndex) != '\"') {
+                endIndex++;
+            }
+
+            String finalText = text.substring( startIndex, endIndex );
+            if (finalText.contains("profanity")) {
+                speak("Don't be so rude!");
+                return "why am I so rude";
+            }
+
+            label1b.setText(finalText);
+            return finalText;
         }
-        
-        String finalText = text.substring( startIndex, endIndex );
-        if (finalText.contains("profanity")) {
-            speak("Don't be so rude!");
-            return "why am I so rude";
+        else {
+            label1b.setText("");
+            return null;
         }
-        
-        label1b.setText(finalText);
-        return finalText;
     }
     
     
     public void answer(String question){
     
-        switchModeTo(ANSWERMODE);
-        label2b.setText("Answering...");
-        String response = Wolfram.solve(question);
-        
-        label2b.setText(response);
-        speak(response);
-        
+        if (currentMode == LISTENINGMODE) {
+            switchModeTo(ANSWERMODE);
+            label2b.setText("Answering...");
+            String response = Wolfram.solve(question);
+
+            label2b.setText(response);
+            speak(response);
+        }
     }    
     
     
@@ -353,6 +365,16 @@ public class Echo extends JFrame {
         
         switch(nextMode){
             case OFFMODE:
+                
+                switch(currentMode){
+                    case LISTENINGMODE:
+                        recorder.stop();
+                        break;
+                        
+                    case ANSWERMODE:
+                        player.stop();
+                        break;
+                }
                 
                 button.turnOff();
                 topButton.turnOff();
@@ -364,7 +386,6 @@ public class Echo extends JFrame {
                 
                 label1b.setText("");
                 label2b.setText("");
-                //microphone disable
                 
                 currentMode = OFFMODE;
                 break;

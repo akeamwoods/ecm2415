@@ -13,7 +13,9 @@ import javax.sound.sampled.SourceDataLine;
  * Play sound. David Wakeling, 2017.
  */
 public class PlaySound {
+    
   private final static String FILENAME = "input.wav";
+  static SourceDataLine line;
 
   /*
    * Set up stream. 
@@ -62,7 +64,7 @@ public class PlaySound {
       AudioFormat    af   = stm.getFormat();
       byte[]         ba   = bos.toByteArray();
       DataLine.Info  info = new DataLine.Info( SourceDataLine.class, af );
-      SourceDataLine line = (SourceDataLine) AudioSystem.getLine( info );
+      line = (SourceDataLine) AudioSystem.getLine( info );
 
       line.open( af );
       line.start();
@@ -70,6 +72,14 @@ public class PlaySound {
     } catch ( Exception ex ) {
       System.out.println( ex ); System.exit( 1 );
     }
+  }
+  
+  /*
+   * Stop stream.
+   */
+  public static void stop() {
+      line.stop();
+      line.flush();
   }
 
   /*
