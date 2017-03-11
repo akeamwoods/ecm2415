@@ -101,6 +101,9 @@ public class Echo extends JFrame {
     private Notification topview = new Notification();
     private CloseNotification closeButton = new CloseNotification();
     
+    private InternetCheck noInternet = new InternetCheck();
+
+    
     public Echo() {
         
         /**
@@ -125,29 +128,32 @@ public class Echo extends JFrame {
 	setLayout( null );
         pack();
         
+        
         top.setBounds( 137, 139, 426, 425);
         side.setBounds( 250, 110, 200, 500);
         
         label1a.setBounds(16, 379, 500, 500);
         label1a.setFont(new Font("Helvetica", Font.BOLD, 12));
         label1a.setForeground(Color.BLACK);
-        label1b.setBounds(75, 380, 500, 500);
+        label1b.setBounds(75, 380, 610, 500);
         label1b.setFont(new Font("Helvetica", Font.ITALIC, 11));
         label1b.setForeground(Color.BLACK);
         label2a.setBounds(23, 409, 500, 500);
         label2a.setFont(new Font("Helvetica", Font.BOLD, 12));
         label2a.setForeground(Color.BLACK);
-        label2b.setBounds(75, 410, 500, 500);
+        label2b.setBounds(75, 410, 610, 500);
         label2b.setFont(new Font("Helvetica", Font.ITALIC, 11));
         label2b.setForeground(Color.BLACK);
+        layeredPane.add(noInternet, 100, 0);
         layeredPane.add(currentLabel, 6, 0);
+        currentLabel.SetSide();
         layeredPane.add(label1a, 0, 0);
         layeredPane.add(label2a, 0, 0);
         layeredPane.add(label1b, 0, 0);
         layeredPane.add(label2b, 0, 0);
         layeredPane.add(side, 0, -1);
         layeredPane.add(button, 0, 0);
-        layeredPane.add(muteIconSide, 0, 0);
+        layeredPane.add(muteIconTop, 0, 0);
         layeredPane.add(light, 0, 0);
         layeredPane.add(background, 0, -1 );
         layeredPane.add(changeModeButton, 0, 0);
@@ -188,6 +194,7 @@ public class Echo extends JFrame {
                 layeredPane.add(label1b, 6, 0);
                 layeredPane.add(label2b, 6, 0);
                 layeredPane.add(currentLabel, 6, 0);
+                currentLabel.SetTop();
                 layeredPane.add(changeModeButton, 5, 1);
                 layeredPane.add(changeModeLabel, 5, 2);
                 layeredPane.add(muteIconTop, 4, 0);
@@ -235,11 +242,12 @@ public class Echo extends JFrame {
                         break;
                 }
                 layeredPane.add(currentLabel, 6, 0);
+                currentLabel.SetSide();
                 layeredPane.add(label1a, 0, 0);
                 layeredPane.add(label2a, 0, 0);
                 layeredPane.add(label1b, 0, 0);
                 layeredPane.add(label2b, 0, 0);
-                layeredPane.add(muteIconSide, 10, 0);
+                layeredPane.add(muteIconTop, 10, 0);
                 layeredPane.add(background, 0, -1 );
                 layeredPane.add(changeModeButton, 0, 0);
                 layeredPane.add(changeModeLabel, 0, 0);
@@ -454,19 +462,16 @@ public class Echo extends JFrame {
          
         void setOne(){
             setIcon(sideBackground1);
-            currentLabel.SetSide1();
             currentBackground = 1;
         }
          
         void setTwo(){
             setIcon(sideBackground2);
-            currentLabel.SetSide2();
             currentBackground = 2;
         }
          
         void setThree(){
             setIcon(sideBackground3);
-            currentLabel.SetSide3();
             currentBackground = 3;
         }  
         
@@ -866,6 +871,7 @@ public class Echo extends JFrame {
            
    }
    
+   
    public class CloseNotification extends JButton {
         
         ImageIcon closeBut = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/closebutton.png") ) );
@@ -891,39 +897,46 @@ public class Echo extends JFrame {
    }
            
    
-   
-    
-    
     public class CurrentViewLabel extends JLabel{
         private ImageIcon top = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/currenttop.png")));
-        private ImageIcon side1 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside1.png")));
-        private ImageIcon side2 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside2.png")));
-        private ImageIcon side3 = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside3.png")));
-
+        private ImageIcon side = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/currentside1.png")));
         
        CurrentViewLabel(){
            setBounds(10, 110, 192, 71);
-           setIcon( side1 );
+           setIcon( side );
        }
        
        void SetTop(){
            setIcon( top );
        }
        
-       void SetSide1(){
-           setIcon( side1 );
+       void SetSide(){
+           setIcon( side );
        }
-       
-       void SetSide2(){
-           setIcon( side2 );
-       }
-       
-       void SetSide3(){
-           setIcon( side3 );
-       }
-       
+          
+    }
+    
+    public class InternetCheck extends JLabel{
+        
+        private ImageIcon internetDisconnected = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/nointernet.png")));
+        private ImageIcon internetConnected = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/internet.png")));
+
+        InternetCheck(){
+            setBounds(0, 0, 700, 677);
+            setIcon(internetConnected);
+        }
+        
+        void Connected(){
+            setIcon( internetDisconnected );
+        }
+        
+        void Disconnected(){
+            setIcon( internetDisconnected );
+        }
+        
     }
    
+    
     public static void main( String[] argv ){
 	JFrame frame = new Echo();
 	frame.setResizable( false );
