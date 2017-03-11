@@ -74,19 +74,12 @@ public class PlaySound {
     }
   }
   
+
   /*
    * Stop stream.
    */
   public static void stop() {
       line.stop();
       line.flush();
-  }
-
-  /*
-   * Play sound.
-   */
-  public static void main( String[] argv ) {
-    AudioInputStream stm = setupStream( FILENAME );
-    playStream( stm, readStream( stm ) );
   }
 }

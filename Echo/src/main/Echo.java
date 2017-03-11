@@ -78,7 +78,7 @@ public class Echo extends JFrame {
     private MuteIconSide muteIconSide = new MuteIconSide();
     
     RecordSound recorder = new RecordSound();
-    static PlaySound player = new PlaySound();
+    PlaySound player = new PlaySound();
     
     /*ATTRIBUTES FOR SIDE VIEW*/
     private ImageIcon icon = new ImageIcon( "/sideview/buttonon.png" );
@@ -274,7 +274,7 @@ public class Echo extends JFrame {
     }
 
     
-    public static synchronized void playSound( final String url ) {
+    public synchronized void playSound( final String url ) {
         
         new Thread(new Runnable() {
             public void run() {
@@ -425,6 +425,9 @@ public class Echo extends JFrame {
                 
             case MUTEMODE:
                 
+                if (currentMode == LISTENINGMODE) {
+                    player.stop();
+                }
                 muteIconSide.turnOn();
                 muteIconTop.turnOn();
                 muteButton.turnOn();
@@ -616,8 +619,8 @@ public class Echo extends JFrame {
                         case OFFMODE:
                             break;
                         case LISTENINGMODE:
-                //            playSound( muteSound);    nothing for now until it's sorted.
-                //            switchModeTo( MUTEMODE );
+                            playSound( muteSound);
+                            switchModeTo( MUTEMODE );
                             break;
                         case ANSWERMODE:
                             playSound( muteSound );
