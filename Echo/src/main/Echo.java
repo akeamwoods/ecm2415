@@ -27,7 +27,7 @@ public class Echo extends JFrame {
     
     /*ACESS TOKEN AND KEY ATTRIBUTES.*/
     private final static String KEY1 = "256a4ccc19dc41d7a75857c7dfd24825";
-    String token  = SpeechToText.renewAccessToken( KEY1 );
+    String token;
     static Timer timer = new Timer();
     static int seconds = 0;
     
@@ -101,7 +101,7 @@ public class Echo extends JFrame {
     private Notification topview = new Notification();
     private CloseNotification closeButton = new CloseNotification();
     
-    private InternetCheck noInternet = new InternetCheck();
+    private InternetCheck internet = new InternetCheck();
 
     
     public Echo() {
@@ -111,6 +111,12 @@ public class Echo extends JFrame {
          */
        
         setupGUI();
+        
+        try {
+            token = SpeechToText.renewAccessToken( KEY1 );
+        } catch (Exception ex) {
+            internet.Disconnected();
+        }
         autoRenewToken(KEY1);
     }
     
@@ -144,7 +150,7 @@ public class Echo extends JFrame {
         label2b.setBounds(75, 410, 610, 500);
         label2b.setFont(new Font("Helvetica", Font.ITALIC, 11));
         label2b.setForeground(Color.BLACK);
-        layeredPane.add(noInternet, 100, 0);
+        layeredPane.add(internet, 100, 0);
         layeredPane.add(currentLabel, 6, 0);
         currentLabel.SetSide();
         layeredPane.add(label1a, 0, 0);
@@ -184,9 +190,11 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 background.setTop();
                 
+                layeredPane.add(internet, 100, 0);
                 layeredPane.add(closeButton, 11, 0);
                 layeredPane.add(topview, 10, 0);
                 layeredPane.add(label1a, 6, 0);
@@ -229,6 +237,7 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 switch(currentBackground){
                     case 1:
@@ -241,6 +250,7 @@ public class Echo extends JFrame {
                         background.setThree();
                         break;
                 }
+                layeredPane.add(internet, 100, 0);
                 layeredPane.add(currentLabel, 6, 0);
                 currentLabel.SetSide();
                 layeredPane.add(label1a, 0, 0);
@@ -293,9 +303,14 @@ public class Echo extends JFrame {
             
             public void run() {
                 if (seconds > 540) {
-                    token = SpeechToText.renewAccessToken( KEY1 );
+                    try {
+                        token = SpeechToText.renewAccessToken( KEY1 );
+                        System.out.println("Renewed key!");
+                    } catch (Exception ex) {
+                        System.out.print("Could not renew access key!");
+                        internet.Disconnected();
+                    }
                     seconds = 0;
-                    System.out.println("Renewed key!");
                 }
                 else {
                     seconds++;
@@ -330,10 +345,17 @@ public class Echo extends JFrame {
         
         if( currentMode == LISTENINGMODE ) {
             label1b.setText("Please wait.");
-            
-            final byte[] speech = SpeechToText.readData( "output.wav" );
-            final String text   = SpeechToText.recognizeSpeech( token, speech );
+            final byte[] speech;
+            final String text;
 
+            speech = SpeechToText.readData( "output.wav" );
+            try {
+                text = SpeechToText.recognizeSpeech( token, speech );
+            } catch (Exception ex) {
+                internet.Disconnected();
+                return "";
+            }
+            
             int startIndex = text.indexOf("name") + 7;
             int endIndex = startIndex;
             while (text.charAt(endIndex) != '\"') {
@@ -413,6 +435,10 @@ public class Echo extends JFrame {
                 
             case ANSWERMODE:
                 
+                if( currentMode == MUTEMODE) {
+                    label1b.setText("");
+                }
+                
                 button.turnOn();
                 topButton.turnOn();
                 topLight.turnOn();
@@ -428,6 +454,7 @@ public class Echo extends JFrame {
                 if (currentMode == LISTENINGMODE) {
                     player.stop();
                 }
+                label1b.setText("muted");
                 muteIconSide.turnOn();
                 muteIconTop.turnOn();
                 muteButton.turnOn();
@@ -506,7 +533,7 @@ public class Echo extends JFrame {
                     switch(currentMode){
                         case OFFMODE:
                             playSound( turnOnSound );
-                            switchModeTo(LISTENINGMODE);
+                            switchModeTo(ANSWERMODE);
                             break;
                         case LISTENINGMODE:
                             playSound( turnOffSound);

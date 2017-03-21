@@ -72,7 +72,7 @@ public class HttpConnect {
 
       return response;
     } catch ( Exception ex ) {
-      System.out.println( ex ); System.exit( 1 ); return null;
+      System.out.println( "HttpConnect: Cannot connect to internet, please check your wifi." ); return null;
     }
   }
 }
