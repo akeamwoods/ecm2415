@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/Santeria/Desktop/ecm2415/Echo/src/speech/TextToSpeech.java</file>
             <file>file:/Users/Santeria/Desktop/ecm2415/Echo/src/main/Echo.java</file>
+            <file>file:/Users/Santeria/Desktop/ecm2415/Echo/src/main/HttpConnect.java</file>
+            <file>file:/Users/Santeria/Desktop/ecm2415/Echo/src/answer/Wolfram.java</file>
+            <file>file:/Users/Santeria/Desktop/ecm2415/Echo/src/sound/RecordSound.java</file>
         </group>
     </open-files>
 </project-private>
