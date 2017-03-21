@@ -39,7 +39,8 @@ public class Wolfram {
       = { { "Content-Length", "0" }
         };
     final byte[] body = new byte[0];
-    byte[] response   = HttpConnect.httpConnect( method, url, headers, body );
+    HttpConnect connect = new HttpConnect();
+    byte[] response   = connect.httpConnect( method, url, headers, body );
     String solution = new String( response );
     
     
