@@ -43,10 +43,7 @@ public class Wolfram {
     byte[] response   = connect.httpConnect( method, url, headers, body );
     String solution = new String( response );
     
-    
     int plaintextIndex = solution.indexOf("plaintext", solution.indexOf("plaintext") + 1);
-    
-    String x = solution.substring(plaintextIndex+14, (solution.length()-1));
     
     int quotationmarkIndex = solution.indexOf("\"", (plaintextIndex+14));
     

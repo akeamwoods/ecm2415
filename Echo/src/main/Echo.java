@@ -389,6 +389,7 @@ public class Echo extends JFrame {
                 label1b.setText(finalText);
                 return "";
             }
+            
 
             label1b.setText(finalText);
             return finalText;
