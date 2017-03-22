@@ -225,8 +225,6 @@ public class Echo extends JFrame {
                 if (light.getStatus() != 0) {
                     topLight.turnOn();
                 }
-                System.out.println(topLight.getStatus());
-           
                 layeredPane.repaint();
                 currentView = TOPVIEW;
                 break;
@@ -295,7 +293,6 @@ public class Echo extends JFrame {
                         light.turnOn();
                         break;
                 }
-                System.out.println(topLight.getStatus());
                 layeredPane.repaint();
                 currentView = SIDEVIEW;
                 break;
@@ -757,14 +754,18 @@ public class Echo extends JFrame {
                     break;
                 case 0:
                     setIcon (topLightStill);
+                    status = 1;
                     break;
                 case 1:
                     setIcon (topLightStill);
+                    status = 1;
                     break;
                 case 2:
                     setIcon (topLightOn);
+                    status = 2;
                     break;
             }
+            
         }
         
         void turnOff() {
@@ -854,17 +855,14 @@ public class Echo extends JFrame {
                     switch(currentBackground){
                         case FIRSTBG:
                             background.setTwo();
-                          
                             currentBackground = SECONDBG;
                             break;
                         case SECONDBG:
                             background.setThree();
-                            
                             currentBackground = THIRDBG;
                             break;
                         case THIRDBG:
                             background.setOne();
-                            
                             currentBackground = FIRSTBG;
                             break;
                     }
