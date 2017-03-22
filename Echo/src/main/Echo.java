@@ -125,6 +125,26 @@ public class Echo extends JFrame {
         autoRenewToken(KEY1);
     }
     
+        
+    //elements that are always visible
+    public JButton getChangeModeButton(){ return changeModeButton;}
+    public JLabel getChangeModeLabel() { return changeModeLabel;}
+    public JLabel getLabel1a() { return label1a;}
+    public JLabel getLabel1b() { return label1b;}
+    public JLabel getLabel2a() { return label2a;}
+    public JLabel getLabel2b() { return label2b;}
+    
+    //elements that are visible in main view
+    public Background getCurrentBackground() { return background;}
+    public JButton getChangeBackgroundButton() { return changeBackgroundButton;}
+    
+    
+    //elements that are visible in top view
+    public JButton getTopButton(){ return topButton; }
+    public JButton getMuteButton(){ return muteButton;}
+    public JLabel getTop(){ return top;};
+    public TopLight getTopLight(){ return topLight;}
+    
     
     public void setupGUI() {
         
@@ -142,7 +162,7 @@ public class Echo extends JFrame {
         
         top.setBounds( 137, 139, 426, 425);
         side.setBounds( 250, 110, 200, 500);
-        
+       
         label1a.setBounds(16, 379, 500, 500);
         label1a.setFont(new Font("Helvetica", Font.BOLD, 12));
         label1a.setForeground(Color.BLACK);
@@ -1096,5 +1116,7 @@ public class Echo extends JFrame {
 	frame.setResizable( false );
 	frame.setVisible( true );
     }
+
+    
     
 }
