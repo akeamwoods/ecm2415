@@ -99,11 +99,14 @@ public class Echo extends JFrame {
     private JLabel label2b = new JLabel();
     
     private Notification topview = new Notification();
+    private SideNotification sideview = new SideNotification();
     private CloseNotification closeButton = new CloseNotification();
+    private SideCloseNotification sideCloseButton = new SideCloseNotification();
     private CloseInternetNotification closeInternetButton = new CloseInternetNotification();
     ImageIcon closeBut = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/closebutton.png") ) );
     private InternetCheck internet = new InternetCheck();
     private boolean profanity = false;
+    private boolean disconnected = false;
 
     
     public Echo() {
@@ -154,6 +157,9 @@ public class Echo extends JFrame {
         label2b.setForeground(Color.BLACK);
         layeredPane.add(closeInternetButton, 101, 0);
         layeredPane.add(internet, 100, 0);
+        
+        layeredPane.add(sideview, 10, 0);
+        layeredPane.add(sideCloseButton, 11, 0);
         layeredPane.add(currentLabel, 6, 0);
         currentLabel.SetSide();
         layeredPane.add(label1a, 0, 0);
@@ -195,6 +201,8 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 background.setTop();
                 
@@ -216,11 +224,9 @@ public class Echo extends JFrame {
                 layeredPane.add(topLight, 2, 0);
                 layeredPane.add(top, 1, 0);
                 layeredPane.add(background, 0, 0 );
-                if (light.getStatus() == 1) {
-                    topLight.turnOnStill();
+                if (light.getStatus() != 0) {
+                    topLight.turnOn();
                 }
-                
-           
                 layeredPane.repaint();
                 currentView = TOPVIEW;
                 break;
@@ -255,8 +261,11 @@ public class Echo extends JFrame {
                         background.setThree();
                         break;
                 }
+                
                 layeredPane.add(closeInternetButton, 101, 0);
                 layeredPane.add(internet, 100, 0);
+                layeredPane.add(sideview, 10, 0);
+                layeredPane.add(sideCloseButton, 11, 0);
                 layeredPane.add(currentLabel, 6, 0);
                 currentLabel.SetSide();
                 layeredPane.add(label1a, 0, 0);
@@ -276,11 +285,14 @@ public class Echo extends JFrame {
                     case -1:
                         light.turnMute();
                         break;
+                    case 0:
+                        light.turnOff();
+                        break;
                     case 1:
                         light.turnOn();
                         break;
-                    case 0:
-                        light.turnOff();
+                    case 2:
+                        light.turnOn();
                         break;
                 }
                 layeredPane.repaint();
@@ -397,7 +409,7 @@ public class Echo extends JFrame {
 
             label2b.setText(response);
             speak(response);
-            topLight.turnOnStill();
+            topLight.turnStill();
         }
     }    
     
@@ -435,7 +447,7 @@ public class Echo extends JFrame {
                 
                 button.turnOn();
                 topButton.turnOn();
-                topLight.turnOn();
+                topLight.turnSpinning();
                 light.turnOn();
                 
                 Thread t = new Thread( new Activity() );
@@ -452,7 +464,7 @@ public class Echo extends JFrame {
                 
                 button.turnOn();
                 topButton.turnOn();
-                topLight.turnOn();
+                
                 light.turnOn();
                 //microphone is disabled
                 //on/off button is disabled
@@ -487,6 +499,7 @@ public class Echo extends JFrame {
         public void run() {
             String question = listen();
             answer(question);
+            
         }
     }
     
@@ -669,7 +682,7 @@ public class Echo extends JFrame {
                             muteIconSide.turnOff();
                             muteIconTop.turnOff();
                             muteButton.turnOff();
-                            topLight.turnOn();
+                            topLight.turnStill();
                             light.turnOn();
                             switchModeTo( ANSWERMODE );
                             break;
@@ -741,15 +754,25 @@ public class Echo extends JFrame {
         }
         
         void turnOn() {
-            setIcon( topLightOn );
-            status = 1;
+            switch (status) {
+                case -1:
+                    setIcon (topLightMute);
+                    break;
+                case 0:
+                    setIcon (topLightStill);
+                    status = 1;
+                    break;
+                case 1:
+                    setIcon (topLightStill);
+                    status = 1;
+                    break;
+                case 2:
+                    setIcon (topLightOn);
+                    status = 2;
+                    break;
+            }
+            
         }
-        
-        void turnOnStill() {
-            setIcon( topLightStill );
-            status = 1;
-        }
-        
         
         void turnOff() {
             setIcon( topLightOff );
@@ -759,6 +782,16 @@ public class Echo extends JFrame {
         void turnMute() {
             setIcon( topLightMute );
             status = -1;
+        }
+        
+        void turnSpinning() {
+            setIcon (topLightOn);
+            status = 2;
+        }
+        
+        void turnStill() {
+            setIcon (topLightStill);
+            status = 1;
         }
         
         int getStatus() {
@@ -828,17 +861,14 @@ public class Echo extends JFrame {
                     switch(currentBackground){
                         case FIRSTBG:
                             background.setTwo();
-                          
                             currentBackground = SECONDBG;
                             break;
                         case SECONDBG:
                             background.setThree();
-                            
                             currentBackground = THIRDBG;
                             break;
                         case THIRDBG:
                             background.setOne();
-                            
                             currentBackground = FIRSTBG;
                             break;
                     }
@@ -1000,16 +1030,63 @@ public class Echo extends JFrame {
         }
         
         void connected(){
+            disconnected = false;
             setIcon( internetConnected );
         }
         
         void disconnected(){
+            disconnected = true;
             closeInternetButton.setIcon(closeBut);
             closeInternetButton.setEnabled(true);
             setIcon( internetDisconnected );
+            if (topLight.getStatus() == 2){
+                topLight.turnStill();
+            }
+            label1b.setText("");
+            label2b.setText("");
+        }
+    }
+    
+    public class SideNotification extends JLabel {
+       
+       ImageIcon sideview = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/sideview.png") ) );
+       ImageIcon close = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/close.png") ) );
+
+        SideNotification() {
+            setIcon( sideview );
+            setBounds(290, 120, 318, 90);
         }
         
-    }
+        void closeNotification() {
+            setIcon( close );
+        }
+           
+   }
+   
+   
+   public class SideCloseNotification extends JButton {
+        
+        ImageIcon closeBut = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/closebutton.png") ) );
+        ImageIcon closeInvis = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/noclosebutton.png") ) );
+        
+        SideCloseNotification() {
+            setBounds( 295, 125, 14, 14);
+            setBorderPainted(false);
+            setContentAreaFilled(false); 
+            setFocusPainted(false); 
+            setBorder( null );
+            setOpaque(false);
+            setIcon( closeBut );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setIcon(closeInvis);
+                    sideCloseButton.setEnabled(false);
+                    sideview.closeNotification();
+                }
+            }
+            );
+        }
+   }
    
     
     public static void main( String[] argv ){
