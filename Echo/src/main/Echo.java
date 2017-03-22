@@ -100,7 +100,8 @@ public class Echo extends JFrame {
     
     private Notification topview = new Notification();
     private CloseNotification closeButton = new CloseNotification();
-    
+    private CloseInternetNotification closeInternetButton = new CloseInternetNotification();
+    ImageIcon closeBut = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/closebutton.png") ) );
     private InternetCheck internet = new InternetCheck();
     private boolean profanity = false;
 
@@ -116,7 +117,7 @@ public class Echo extends JFrame {
         try {
             token = SpeechToText.renewAccessToken( KEY1 );
         } catch (Exception ex) {
-            internet.Disconnected();
+            internet.disconnected();
         }
         autoRenewToken(KEY1);
     }
@@ -151,6 +152,7 @@ public class Echo extends JFrame {
         label2b.setBounds(75, 410, 610, 500);
         label2b.setFont(new Font("Helvetica", Font.ITALIC, 11));
         label2b.setForeground(Color.BLACK);
+        layeredPane.add(closeInternetButton, 101, 0);
         layeredPane.add(internet, 100, 0);
         layeredPane.add(currentLabel, 6, 0);
         currentLabel.SetSide();
@@ -192,9 +194,11 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
+                layeredPane.remove(0);
                 
                 background.setTop();
                 
+                layeredPane.add(closeInternetButton, 101, 0);
                 layeredPane.add(internet, 100, 0);
                 layeredPane.add(closeButton, 11, 0);
                 layeredPane.add(topview, 10, 0);
@@ -213,7 +217,7 @@ public class Echo extends JFrame {
                 layeredPane.add(top, 1, 0);
                 layeredPane.add(background, 0, 0 );
                 if (light.getStatus() == 1) {
-                    topLight.turnOn();
+                    topLight.turnOnStill();
                 }
                 
            
@@ -239,7 +243,7 @@ public class Echo extends JFrame {
                 layeredPane.remove(0);
                 layeredPane.remove(0);
                 layeredPane.remove(0);
-                
+                layeredPane.remove(0);
                 switch(currentBackground){
                     case 1:
                         background.setOne();
@@ -251,6 +255,7 @@ public class Echo extends JFrame {
                         background.setThree();
                         break;
                 }
+                layeredPane.add(closeInternetButton, 101, 0);
                 layeredPane.add(internet, 100, 0);
                 layeredPane.add(currentLabel, 6, 0);
                 currentLabel.SetSide();
@@ -309,7 +314,7 @@ public class Echo extends JFrame {
                         System.out.println("Renewed key!");
                     } catch (Exception ex) {
                         System.out.print("Could not renew access key!");
-                        internet.Disconnected();
+                        internet.disconnected();
                     }
                     seconds = 0;
                 }
@@ -354,7 +359,7 @@ public class Echo extends JFrame {
             try {
                 text = SpeechToText.recognizeSpeech( token, speech );
             } catch (Exception ex) {
-                internet.Disconnected();
+                internet.disconnected();
                 return "";
             }
             
@@ -392,6 +397,7 @@ public class Echo extends JFrame {
 
             label2b.setText(response);
             speak(response);
+            topLight.turnOnStill();
         }
     }    
     
@@ -722,6 +728,7 @@ public class Echo extends JFrame {
     public class TopLight extends JLabel {
     
         ImageIcon topLightOn = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lighton.gif") ) );
+        ImageIcon topLightStill = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lighton.png") ) );
         ImageIcon topLightOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/lightoff2.png") ) );
         ImageIcon topLightMute = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/slowmute.gif") ) );
         
@@ -737,6 +744,12 @@ public class Echo extends JFrame {
             setIcon( topLightOn );
             status = 1;
         }
+        
+        void turnOnStill() {
+            setIcon( topLightStill );
+            status = 1;
+        }
+        
         
         void turnOff() {
             setIcon( topLightOff );
@@ -953,6 +966,28 @@ public class Echo extends JFrame {
           
     }
     
+    public class CloseInternetNotification extends JButton {
+        
+        ImageIcon closeInvis = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/noclosebutton.png") ) );
+        
+        CloseInternetNotification() {
+            setBounds( 207, 299, 14, 14);
+            setBorderPainted(false);
+            setContentAreaFilled(false); 
+            setFocusPainted(false); 
+            setBorder( null );
+            setOpaque(false);
+            setIcon( closeBut );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setIcon(closeInvis);
+                    closeInternetButton.setEnabled(false);
+                    internet.connected();
+                }
+            }
+            );
+        }
+   }
     
     public class InternetCheck extends JLabel{
         
@@ -964,11 +999,13 @@ public class Echo extends JFrame {
             setIcon(internetConnected);
         }
         
-        void Connected(){
-            setIcon( internetDisconnected );
+        void connected(){
+            setIcon( internetConnected );
         }
         
-        void Disconnected(){
+        void disconnected(){
+            closeInternetButton.setIcon(closeBut);
+            closeInternetButton.setEnabled(true);
             setIcon( internetDisconnected );
         }
         
