@@ -105,7 +105,9 @@ public class Echo extends JFrame {
     private CloseInternetNotification closeInternetButton = new CloseInternetNotification();
     ImageIcon closeBut = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/closebutton.png") ) );
     private InternetCheck internet = new InternetCheck();
+    private boolean profanity = false;
     private boolean disconnected = false;
+
     
     public Echo() {
         
@@ -133,8 +135,8 @@ public class Echo extends JFrame {
         setTitle( "Amazon Echo Simulator" );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setContentPane( new JLabel(sideBackground1) );
-	setIconImage( icon.getImage() );
-	setLayout( null );
+		setIconImage( icon.getImage() );
+		setLayout( null );
         pack();
         
         
@@ -360,6 +362,7 @@ public class Echo extends JFrame {
             recorder.record();
         
         if( currentMode == LISTENINGMODE ) {
+            profanity = false;
             label1b.setText("Please wait.");
             final byte[] speech;
             final String text;
@@ -380,8 +383,11 @@ public class Echo extends JFrame {
 
             String finalText = text.substring( startIndex, endIndex );
             if (finalText.contains("profanity")) {
+                profanity = true;
                 speak("Don't be so rude!");
-                return "why am I so rude";
+                label2b.setText("Don't be so rude!");
+                label1b.setText(finalText);
+                return "";
             }
 
             label1b.setText(finalText);
@@ -396,7 +402,8 @@ public class Echo extends JFrame {
     
     public void answer(String question){
     
-        if (currentMode == LISTENINGMODE && disconnected == false) {
+        if (currentMode == LISTENINGMODE && disconnected == false && profanity == false) {
+
             switchModeTo(ANSWERMODE);
             label2b.setText("Answering...");
             String response = Wolfram.solve(question);
@@ -529,7 +536,7 @@ public class Echo extends JFrame {
         }
     }
 
-//WORKS
+
     public class Button extends JButton {
         
         ImageIcon buttonOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/buttonoff.png") ) );
@@ -884,7 +891,8 @@ public class Echo extends JFrame {
         }   
     }
     
-   public class MuteIconTop extends JLabel {
+    
+    public class MuteIconTop extends JLabel {
     
         ImageIcon muteIconTop = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/topview/woodmute.png") ) );
         ImageIcon muteIconOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mutenoicon.png") ) );
@@ -905,7 +913,8 @@ public class Echo extends JFrame {
         
     }
    
-   public class MuteIconSide extends JLabel {
+    
+    public class MuteIconSide extends JLabel {
     
         ImageIcon muteIconOff = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mutenoicon.png") ) );
         ImageIcon muteIconSide = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/sideview/muteicon.png") ) );
@@ -927,7 +936,7 @@ public class Echo extends JFrame {
     }
    
    
-   public class Notification extends JLabel {
+    public class Notification extends JLabel {
        
        ImageIcon topview = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/topview.png") ) );
        ImageIcon close = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/close.png") ) );
@@ -944,7 +953,7 @@ public class Echo extends JFrame {
    }
    
    
-   public class CloseNotification extends JButton {
+    public class CloseNotification extends JButton {
         
         ImageIcon closeBut = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/closebutton.png") ) );
         ImageIcon closeInvis = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/notifications/noclosebutton.png") ) );
