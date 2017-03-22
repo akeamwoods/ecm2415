@@ -135,8 +135,8 @@ public class Echo extends JFrame {
         setTitle( "Amazon Echo Simulator" );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setContentPane( new JLabel(sideBackground1) );
-	setIconImage( icon.getImage() );
-	setLayout( null );
+		setIconImage( icon.getImage() );
+		setLayout( null );
         pack();
         
         
@@ -403,7 +403,8 @@ public class Echo extends JFrame {
     
     public void answer(String question){
     
-        if (currentMode == LISTENINGMODE && profanity == false) {
+        if (currentMode == LISTENINGMODE && disconnected == false && profanity == false) {
+
             switchModeTo(ANSWERMODE);
             label2b.setText("Answering...");
             String response = Wolfram.solve(question);
@@ -478,7 +479,7 @@ public class Echo extends JFrame {
                 if (currentMode == LISTENINGMODE) {
                     player.stop();
                 }
-                label1b.setText("muted");
+                label1b.setText("Microphone is currently muted.");
                 muteIconSide.turnOn();
                 muteIconTop.turnOn();
                 muteButton.turnOn();
