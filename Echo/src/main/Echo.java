@@ -1031,7 +1031,9 @@ public class Echo extends JFrame {
             closeInternetButton.setIcon(closeBut);
             closeInternetButton.setEnabled(true);
             setIcon( internetDisconnected );
-            topLight.turnOn();
+            if (topLight.getStatus() == 2){
+                topLight.turnStill();
+            }
             label1b.setText("");
             label2b.setText("");
         }
