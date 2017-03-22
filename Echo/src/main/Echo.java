@@ -396,7 +396,7 @@ public class Echo extends JFrame {
     
     public void answer(String question){
     
-        if (currentMode == LISTENINGMODE) {
+        if (currentMode == LISTENINGMODE && disconnected == false) {
             switchModeTo(ANSWERMODE);
             label2b.setText("Answering...");
             String response = Wolfram.solve(question);
@@ -471,7 +471,7 @@ public class Echo extends JFrame {
                 if (currentMode == LISTENINGMODE) {
                     player.stop();
                 }
-                label1b.setText("muted");
+                label1b.setText("Microphone is currently muted.");
                 muteIconSide.turnOn();
                 muteIconTop.turnOn();
                 muteButton.turnOn();
